@@ -1,39 +1,35 @@
-"use client"
-import { Pagination } from 'flowbite-react';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSearchParams } from 'next/navigation'
-import { getMeme } from '@/lib/redux/memeSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/lib/redux/store';
-import MemeCard from '@/components/Meme/MemeCard';
-import { meme } from '@/lib/types';
-export default function Page() {
+'use client'
+import { useEffect, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useSelector, useDispatch } from "react-redux"
+import { RootState } from "@/lib/redux/store"
+import { getMeme } from "@/lib/redux/memeSlice"
+import { meme } from "@/lib/types"
+import MemeCard from "@/components/Meme/MemeCard"
+import { Pagination } from "flowbite-react"
+export default function Result() {
   const [loading, setLoaing] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const dispatch = useDispatch()
   const { memeList } = useSelector((state: RootState) => state.meme)
+  const searchParams = useSearchParams()
+  const dispatch = useDispatch()
+  const router = useRouter()
   const memesPerPage = 30
   useEffect(() => {
-    const fetchData = () => {
-      setLoaing(true)
-      try {
-        fetch('/api/meme/getAll')
-        .then(res => res.json())
-        .then(res => {
-          dispatch(getMeme(res.data as meme[]))
-          setLoaing(false)
-        }) 
-      }
-      catch (error) {
+    setLoaing(true)
+    try {
+      fetch(`/api/search?${searchParams.toString()}`)
+      .then(res => res.json())
+      .then(res => {
+        dispatch(getMeme(res.data as meme[]))
         setLoaing(false)
-        console.log(error)  
-      }
+      })
+    } 
+    catch (error) {
+      setLoaing(false)
+      console.log(false)
     }
-    fetchData()
-  }, [])
+  }, [searchParams.toString()])
   useEffect(() => {
     const getPage = parseInt(searchParams.get('page') as string)
     if(searchParams.get('page')){
@@ -42,7 +38,10 @@ export default function Page() {
   }, [searchParams.get('page')])
   const onPageChange = (page: number) => {
     setCurrentPage(page)
-    router.push(`?page=${page}`)
+    const urlParams = new URLSearchParams(searchParams.toString())
+    urlParams.set('page', page.toString())
+    const searchQuery = urlParams.toString()
+    router.push(`result?${searchQuery}`)
   }
   const idxOfLastMeme = currentPage * memesPerPage
   const idxOfFirstMeme = idxOfLastMeme - memesPerPage
@@ -57,7 +56,6 @@ export default function Page() {
           <MemeCard key={meme.firebaseName} meme={meme} mode='watchOnly'/>
         )}
       </ul>
-   
       {currentPage <= Math.ceil(memeList.length / memesPerPage) && 
         <div className="flex justify-center">
           <Pagination currentPage={currentPage} totalPages={Math.ceil(memeList.length / memesPerPage)} onPageChange={onPageChange} 

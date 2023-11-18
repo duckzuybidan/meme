@@ -9,17 +9,32 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
+    "@reduxjs/toolkit": "^1.9.7",
+    "encoding": "^0.1.13",
+    "firebase": "^10.5.0",
+    "flowbite-react": "^0.6.4",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.6.3",
+    "next": "14.0.0",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.0.0"
+    "react-drag-drop-files-2": "^2.3.11",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.11.0",
+    "react-redux": "^8.1.3",
+    "redux-persist": "^6.0.0"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@types/jsonwebtoken": "^9.0.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10",
+    "eslint": "8.52.0",
+    "eslint-config-next": "14.0.0",
     "postcss": "^8",
-    "tailwindcss": "^3"
+    "tailwindcss": "^3",
+    "typescript": "^5"
   }
 }
