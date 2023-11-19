@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { comment, user } from "@/lib/types"
 import { useSelector } from "react-redux"
 import { RootState } from "@/lib/redux/store"
@@ -27,7 +27,7 @@ export default function Comment({rootComment, replies}: {rootComment: comment, r
     .then(res => {
       setUserRef(res.data as user)
     })
-  }, [])
+  }, [rootComment.userId])
   const handleDelete = (e: React.SyntheticEvent<HTMLSpanElement>) => {
     e.stopPropagation()
     fetch(`/api/comment/delete/${rootComment._id}`, {

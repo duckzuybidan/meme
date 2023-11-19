@@ -1,6 +1,6 @@
 "use client"
 import { Pagination } from 'flowbite-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSearchParams } from 'next/navigation'
 import { getMeme } from '@/lib/redux/memeSlice';
@@ -33,13 +33,13 @@ export default function Page() {
       }
     }
     fetchData()
-  }, [])
+  }, [dispatch])
   useEffect(() => {
     const getPage = parseInt(searchParams.get('page') as string)
     if(searchParams.get('page')){
       setCurrentPage(getPage)
     }
-  }, [searchParams.get('page')])
+  }, [searchParams])
   const onPageChange = (page: number) => {
     setCurrentPage(page)
     router.push(`?page=${page}`)

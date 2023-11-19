@@ -36,7 +36,7 @@ export default function AuthMenu() {
     }
   }
   return (
-    <Menu as='div' className='text-white font-semibold relative'>
+    <Menu as='div' className='text-white font-semibold relative z-50'>
         <Menu.Button>
             <img
                 src={currentUser?.avatar}

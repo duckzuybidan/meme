@@ -32,30 +32,34 @@ export default function UploadModal({modal, onClose}: {modal: modal, onClose: ()
   const [tag, setTag] = useState('')
   const [preview, setPreview] = useState('')
   useEffect(() => {
+    const handleFileUpload = (file: File) => {
+      setFormData(formData => {
+      return {
+        ...formData,
+        type: file.type.split('/')[0]
+      }
+  })
+      setPreview(URL.createObjectURL(file as File))
+    }
     if (file) {
       handleFileUpload(file)
       setDisable(false)
     }
   }, [file])
   useEffect(() => {
-    setFormData({
+    setFormData(formData => {
+      return {
       ...formData,
       title: modal.meme?.title as string,
       description: modal.meme?.description as string,
       tags: (modal.meme?.tags ? modal.meme?.tags : [] as string[])
-    })
-    
+      }
+  })
   }, [modal])
   if(!modal.open){
     return
   }
-  const handleFileUpload = (file: File) => {
-    setFormData({
-      ...formData,
-      type: file.type.split('/')[0]
-    })
-    setPreview(URL.createObjectURL(file as File))
-  }
+  
   const handleAddTag = (e : React.SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault()
     if(formData.tags.length >= 5){
@@ -178,12 +182,12 @@ export default function UploadModal({modal, onClose}: {modal: modal, onClose: ()
               }}   
           />
           
-            {formData.type === 'image' && <img src={preview} className="object-cover object-center rounded-lg h-48 w-48"/>}
+            {formData.type === 'image' && <img src={preview} alt='preview' className="object-cover object-center rounded-lg h-48 w-48"/>}
             {formData.type === 'video' && <video src={preview}  controls className="object-cover object-center rounded-lg h-48 w-48"/>}
             </>
           ) : (
             <>
-            {modal.meme?.type === 'image' && <img src={modal.meme.url} className="object-cover object-center rounded-lg h-48 w-48"/>}
+            {modal.meme?.type === 'image' && <img src={modal.meme.url} alt={modal.meme.title} className="object-cover object-center rounded-lg h-48 w-48"/>}
             {modal.meme?.type === 'video' && <video src={modal.meme.url}  controls className="object-cover object-center rounded-lg h-48 w-48"/>}
             </>
           )}

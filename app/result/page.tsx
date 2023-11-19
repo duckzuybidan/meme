@@ -16,26 +16,29 @@ export default function Result() {
   const router = useRouter()
   const memesPerPage = 30
   useEffect(() => {
-    setLoaing(true)
-    try {
-      fetch(`/api/search?${searchParams.toString()}`)
-      .then(res => res.json())
-      .then(res => {
-        dispatch(getMeme(res.data as meme[]))
+    const fetchData = () => {
+      setLoaing(true)
+      try {
+        fetch(`/api/search/${searchParams.get('searchTerm')}`)
+        .then(res => res.json())
+        .then(res => {
+          dispatch(getMeme(res.data as meme[]))
+          setLoaing(false)
+        })
+      } 
+      catch (error) {
         setLoaing(false)
-      })
-    } 
-    catch (error) {
-      setLoaing(false)
-      console.log(false)
+        console.log(false)
+      }
     }
-  }, [searchParams.toString()])
+    fetchData()
+  }, [searchParams, dispatch])
   useEffect(() => {
     const getPage = parseInt(searchParams.get('page') as string)
     if(searchParams.get('page')){
       setCurrentPage(getPage)
     }
-  }, [searchParams.get('page')])
+  }, [searchParams])
   const onPageChange = (page: number) => {
     setCurrentPage(page)
     const urlParams = new URLSearchParams(searchParams.toString())

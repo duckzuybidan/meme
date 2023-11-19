@@ -37,13 +37,13 @@ export default function Page({params}: {params: {id:string}}) {
           setMeme(res.data as meme)
           return res.data as meme
         })
-        .then(meme => {
-          fetch(`/api/user/getById/${meme.userRef}`)
+        .then(async (meme) => {
+          await fetch(`/api/user/getById/${meme.userRef}`)
           .then(res => res.json())
           .then(res => {
             setUserRef(res.data as user)
           })
-          fetch(`/api/comment/getByMemeId/${meme._id}`)
+          await fetch(`/api/comment/getByMemeId/${meme._id}`)
           .then(res => res.json())
           .then(res => {
             dispatch(getComment(res.data as comment[]))
@@ -60,7 +60,7 @@ export default function Page({params}: {params: {id:string}}) {
       }
     }
     fetchData()
-  }, [])
+  }, [currentUser, params.id, dispatch])
   const handleDownload = () => {
     fetch(meme?.url as string)
     .then(res => res.blob())
@@ -125,7 +125,7 @@ export default function Page({params}: {params: {id:string}}) {
     {loading && <p className='text-center my-7 text-3xl font-bold'>Loading...</p>}
     {!loading && meme && userRef &&
     <div className="flex flex-col items-center gap-4 mt-11">
-      {meme?.type === 'image' && <img src={meme.url} className="object-cover object-center rounded-xl w-96 h-96 max-[400px]:h-48 max-[400px]:w-48"/>}
+      {meme?.type === 'image' && <img src={meme.url} alt={meme.url} className="object-cover object-center rounded-xl w-96 h-96 max-[400px]:h-48 max-[400px]:w-48"/>}
       {meme?.type === 'video' && <video src={meme.url} controls  controlsList="nodownload" className="object-cover object-center rounded-xl w-96 h-96 max-[400px]:h-48 max-[400px]:w-48"/>}
       <h1 className="font-bold text-2xl">{meme?.title}</h1>
       <div className="flex justify-around items-center w-3/5 max-lg:flex-col max-lg:gap-y-3 max-sm:w-full">

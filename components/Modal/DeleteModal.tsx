@@ -53,7 +53,7 @@ export default function DeleteModal({modal, onClose}: {modal: modal, onClose: ()
           onClick={onClose}
         />
         <h1 className='font-semibold text-xl text-red-500 mt-5'>Are you sure to delete this meme?</h1>
-        {modal.meme?.type === 'image' && <img src={modal.meme.url} className="object-cover object-center rounded-lg h-48 w-48 max-[400px]:h-36 max-[400px]:w-36"/>}
+        {modal.meme?.type === 'image' && <img src={modal.meme.url} alt={modal.meme.title} className="object-cover object-center rounded-lg h-48 w-48 max-[400px]:h-36 max-[400px]:w-36"/>}
         {modal.meme?.type === 'video' && <video src={modal.meme.url} className="object-cover object-center rounded-lg h-48 w-48 max-[400px]:h-36 max-[400px]:w-36"/>}
         <h3 className="break-all font-semibold text-lg text-center w-2/3">{modal.meme?.title}</h3>
         <button

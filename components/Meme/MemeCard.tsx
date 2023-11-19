@@ -37,7 +37,7 @@ export default function MemeCard({meme, mode} : {meme: meme, mode: 'editable' | 
         <AiOutlineDelete className="scale-125 cursor-pointer hover:text-red-500" onClick={handleDelete}/>
       </div>
       }
-      {meme.type === 'image' && <img src={meme.url} className="object-cover object-center rounded-lg h-48 w-full max-[400px]:h-36"/>}
+      {meme.type === 'image' && <img src={meme.url} alt={meme.title} className="object-cover object-center rounded-lg h-48 w-full max-[400px]:h-36"/>}
       {meme.type === 'video' && 
         <div className="relative">
           <div className="absolute w-full h-full flex items-center justify-center">

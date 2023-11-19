@@ -1,16 +1,16 @@
 import { NextRequest, NextResponse } from "next/server"
 import connectDB from '@/lib/connectDB'
 import Meme from "@/lib/models/memeSchema"
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, {params}: {params: {queries: string[]}}) {
     await connectDB()
-    try {
-        let searchTerm = req.nextUrl.searchParams.get('searchTerm') || ''
+    try{
         const memes = await Meme.find({
-            title: { $regex: searchTerm, $options: 'i' }
-        })
+        title: { $regex: params.queries[0], $options: 'i' }
+    })
         return NextResponse.json({data: memes})
-    } 
-    catch (error) {
+    }
+    catch(error){
         return NextResponse.json({error: error})
     }
+   
 }

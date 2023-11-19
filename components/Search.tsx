@@ -10,7 +10,7 @@ export default function Search() {
         if(searchParams.get('searchTerm')){
             setSearchTerm(searchParams.get('searchTerm') as string)
         }
-    }, [])
+    }, [searchParams])
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
         const urlParams = new URLSearchParams()

@@ -20,22 +20,22 @@ export default function Page() {
   const fileRef = useRef(null)
   const dispatch = useDispatch()
   useEffect(() => {
+    const handleFileUpload = (file: File) => {
+      if(file.type.split('/')[0] !== 'image'){
+        toast.error("Only accept image file!")
+        return
+      }
+      if(file.size > 1024 * 1024){
+        toast.error("Only accept the size less than 1MB")
+        return
+      }
+      setImage(URL.createObjectURL(file))
+    }
     if (file) {
       handleFileUpload(file)
     }
   }, [file])
-  const handleFileUpload = (file: File) => {
-    if(file.type.split('/')[0] !== 'image'){
-      toast.error("Only accept image file!")
-      return
-    }
-    if(file.size > 1024 * 1024){
-      toast.error("Only accept the size less than 1MB")
-      return
-    }
-    URL.revokeObjectURL(image)
-    setImage(URL.createObjectURL(file))
-  }
+  
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
     try{

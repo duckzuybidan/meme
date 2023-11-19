@@ -28,7 +28,7 @@ export default function Page() {
       }
     }
     fetchData()
-  }, [])
+  }, [currentUser, dispatch])
   return (
     <>
     {loading && <p className='text-center my-7 text-3xl font-bold'>Loading...</p>}
