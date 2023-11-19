@@ -31,19 +31,31 @@ export default function Page({params}: {params: {id:string}}) {
     const fetchData = () => {
       setLoading(true)
       try {
-        fetch(`/api/meme/getById/${params.id}`)
+        fetch(`/api/meme/getById/${params.id}`, {
+          next:{
+            revalidate: 5
+          }
+        })
         .then(res => res.json())
         .then(res => {
           setMeme(res.data as meme)
           return res.data as meme
         })
         .then(async (meme) => {
-          await fetch(`/api/user/getById/${meme.userRef}`)
+          await fetch(`/api/user/getById/${meme.userRef}`, {
+            next:{
+              revalidate: 5
+            }
+          })
           .then(res => res.json())
           .then(res => {
             setUserRef(res.data as user)
           })
-          await fetch(`/api/comment/getByMemeId/${meme._id}`)
+          await fetch(`/api/comment/getByMemeId/${meme._id}`, {
+            next:{
+              revalidate: 5
+            }
+          })
           .then(res => res.json())
           .then(res => {
             dispatch(getComment(res.data as comment[]))
