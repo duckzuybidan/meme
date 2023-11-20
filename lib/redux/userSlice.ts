@@ -1,13 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { user } from '../types'
 const initialState = {
-  currentUser: {
-    _id: '',
-    username: '',
-    email: '',
-    password: '',
-    avatar: ''
-  } as user | null
+  currentUser: null as user | null
 }
 
 const userSlice = createSlice({

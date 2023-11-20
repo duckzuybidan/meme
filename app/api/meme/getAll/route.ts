@@ -5,11 +5,7 @@ export const revalidate = 5;
 export async function GET(req: NextRequest) {
     await connectDB()
     try {
-        let data
-        await Meme.find({})
-        .then(memes => {
-            data = memes
-        })
+        const data = await Meme.find({})
         return NextResponse.json({data: data})
         
     } 

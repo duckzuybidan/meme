@@ -5,11 +5,8 @@ export const revalidate = 5;
 export async function GET(req: NextRequest, {params}: {params: {id:string}}) {
     await connectDB()
     try {
-        let data
-        await Comment.find({memeId: params.id})
-        .then(comments => {
-            data = comments
-        })
+        
+        const data = await Comment.find({memeId: params.id})
         return NextResponse.json({data: data})
     } 
     catch (error) {

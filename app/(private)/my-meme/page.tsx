@@ -14,15 +14,14 @@ export default function Page() {
     const fetchData = () => {
       setLoaing(true)
       try {
-        fetch('/api/meme/getAll', {
+        fetch(`/api/meme/getByUserRef/${currentUser?._id}`, {
           next:{
             revalidate: 5
           }
         })
         .then(res => res.json())
         .then(res => {
-          const myMemes = res.data.filter((meme: meme) => meme.userRef === currentUser?._id)
-          dispatch(getMeme(myMemes))
+          dispatch(getMeme(res.data))
           setLoaing(false)
         }) 
       }
