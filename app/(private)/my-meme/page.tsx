@@ -7,12 +7,12 @@ import { RootState } from '@/lib/redux/store'
 import { meme } from '@/lib/types'
 export default function Page() {
   const dispatch = useDispatch()
-  const [loading, setLoaing] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { memeList } = useSelector((state: RootState) => state.meme)
   const { currentUser } = useSelector((state: RootState) => state.user)
   useEffect(() => {
     const fetchData = () => {
-      setLoaing(true)
+      setLoading(true)
       try {
         fetch(`/api/meme/getByUserRef/${currentUser?._id}`, {
           next:{
@@ -22,12 +22,12 @@ export default function Page() {
         .then(res => res.json())
         .then(res => {
           dispatch(getMeme(res.data))
-          setLoaing(false)
+          setLoading(false)
         }) 
       }
       catch (error) {
         console.log(error)  
-        setLoaing(false)
+        setLoading(false)
       }
     }
     fetchData()
@@ -40,7 +40,7 @@ export default function Page() {
       {memeList.map((meme: meme) => 
         <MemeCard key={meme.firebaseName} meme={meme} mode='editable'/>
       )}
-    </ul>
+      </ul>
     }
     </>
   )

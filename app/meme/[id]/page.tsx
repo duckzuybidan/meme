@@ -135,7 +135,7 @@ export default function Page({params}: {params: {id:string}}) {
   return (
     <>
     {loading && <p className='text-center my-7 text-3xl font-bold'>Loading...</p>}
-    {!loading && meme && userRef &&
+    {!loading && meme && userRef && commentList &&
     <div className="flex flex-col items-center gap-4 mt-11">
       {meme?.type === 'image' && <img src={meme.url} alt={meme.url} className="rounded-xl"/>}
       {meme?.type === 'video' && <video src={meme.url} controls  controlsList="nodownload" className="rounded-xl"/>}
@@ -168,7 +168,7 @@ export default function Page({params}: {params: {id:string}}) {
       <div className="p-5 pb-10 bg-slate-100 rounded-lg w-2/3 h-max">
       <h2 className="font-semibold text-lg text-center">DESCRIPTION</h2>
       <div className="flex space-x-2">
-      {meme.tags.map(tag => <Link key={meme._id} className="text-sky-500 underline" href={`/hashTag/${tag}`}>#{tag}</Link>)}
+      {meme.tags.map(tag => <Link key={meme._id} className="text-sky-500 underline" href={`/hashtag/${tag}`}>#{tag}</Link>)}
       </div>
       <p className="break-words" dangerouslySetInnerHTML={{__html: meme.description.replace(/\n/g, '<br/>')}}/>
       </div>
