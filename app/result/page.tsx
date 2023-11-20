@@ -17,9 +17,13 @@ export default function Result() {
   const memesPerPage = 30
   useEffect(() => {
     const fetchData = () => {
-      setLoaing(true)
+      setLoaing(true) 
       try {
-        fetch(`/api/search/${searchParams.get('searchTerm')}`)
+        fetch(`/api/search?${searchParams.toString()}`,{
+          next: {
+            revalidate: 5
+          }
+        })
         .then(res => res.json())
         .then(res => {
           dispatch(getMeme(res.data as meme[]))
