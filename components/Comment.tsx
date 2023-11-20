@@ -65,6 +65,7 @@ export default function Comment({rootComment, replies}: {rootComment: comment, r
     })
     setNewReply({...newReply, body: ''})
     setOnReply(false)
+    setShowReplies(true)
   }
   return (
     <div className={`${replies === null ? 'scale-90 m-3' : ''}`}>
@@ -113,7 +114,7 @@ export default function Comment({rootComment, replies}: {rootComment: comment, r
         }
         {replies !== null &&
         <div className="flex gap-3 items-center">
-        <button className="font-semibold" onClick={() => setOnReply(!onReply)}>Reply</button>
+        {currentUser && <button className="font-semibold" onClick={() => setOnReply(!onReply)}>Reply</button>}
         <button className="p-1 px-2 rounded-lg bg-green-300 flex items-center text-sm"
           onClick={() => setShowReplies(!showReplies)}
         >

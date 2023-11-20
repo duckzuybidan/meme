@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
           await newUser.save()
           const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET as string)
           cookies().set('access_token', token, { httpOnly: true })
-          return NextResponse.json({data: user, messsage: "Sign in success"})
+          return NextResponse.json({data: newUser, message: "Sign in success!"})
         }
       } 
       catch (error) {

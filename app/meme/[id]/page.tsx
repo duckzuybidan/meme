@@ -41,8 +41,8 @@ export default function Page({params}: {params: {id:string}}) {
           setMeme(res.data as meme)
           return res.data as meme
         })
-        .then(async (meme) => {
-          await fetch(`/api/user/getById/${meme.userRef}`, {
+        .then(meme => {
+          fetch(`/api/user/getById/${meme.userRef}`, {
             next:{
               revalidate: 5
             }
@@ -51,7 +51,7 @@ export default function Page({params}: {params: {id:string}}) {
           .then(res => {
             setUserRef(res.data as user)
           })
-          await fetch(`/api/comment/getByMemeId/${meme._id}`, {
+          fetch(`/api/comment/getByMemeId/${meme._id}`, {
             next:{
               revalidate: 5
             }
@@ -137,8 +137,8 @@ export default function Page({params}: {params: {id:string}}) {
     {loading && <p className='text-center my-7 text-3xl font-bold'>Loading...</p>}
     {!loading && meme && userRef &&
     <div className="flex flex-col items-center gap-4 mt-11">
-      {meme?.type === 'image' && <img src={meme.url} alt={meme.url} className="object-cover object-center rounded-xl w-96 h-96 max-[400px]:h-48 max-[400px]:w-48"/>}
-      {meme?.type === 'video' && <video src={meme.url} controls  controlsList="nodownload" className="object-cover object-center rounded-xl w-96 h-96 max-[400px]:h-48 max-[400px]:w-48"/>}
+      {meme?.type === 'image' && <img src={meme.url} alt={meme.url} className="rounded-xl"/>}
+      {meme?.type === 'video' && <video src={meme.url} controls  controlsList="nodownload" className="rounded-xl"/>}
       <h1 className="font-bold text-2xl">{meme?.title}</h1>
       <div className="flex justify-around items-center w-3/5 max-lg:flex-col max-lg:gap-y-3 max-sm:w-full">
         <div className="flex gap-3 items-center">
@@ -174,6 +174,7 @@ export default function Page({params}: {params: {id:string}}) {
       </div>
       <div className="w-2/3 h-max space-y-5">
         <h2 className="font-bold text-2xl">Comments</h2>
+        {currentUser ? (
         <form 
           className="flex item-center gap-5"
           onSubmit={handleComment}
@@ -201,6 +202,9 @@ export default function Page({params}: {params: {id:string}}) {
               </button>
             </div>
         </form>
+        ) : (
+          <h2 className="font-semibold text-2xl text-sky-500">You have to sign in to comment in this meme!</h2>
+        )}
         <div className="w-full">
         {commentList?.length === 0 && <p className='text-center my-7 text-3xl font-bold'>This meme do not have any comments!</p>}
         {commentList?.length as number > 0 && (
