@@ -7,8 +7,9 @@ import { getMeme } from "@/lib/redux/memeSlice"
 import { meme } from "@/lib/types"
 import MemeCard from "@/components/Meme/MemeCard"
 import { Pagination } from "flowbite-react"
+import toast from "react-hot-toast"
 export default function Result() {
-  const [loading, setLoaing] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const { memeList } = useSelector((state: RootState) => state.meme)
   const searchParams = useSearchParams()
@@ -17,7 +18,7 @@ export default function Result() {
   const memesPerPage = 30
   useEffect(() => {
     const fetchData = () => {
-      setLoaing(true) 
+      setLoading(true) 
       try {
         fetch(`/api/search?${searchParams.toString()}`,{
           next: {
@@ -26,12 +27,18 @@ export default function Result() {
         })
         .then(res => res.json())
         .then(res => {
+          if (res.error) {
+            setLoading(false)
+            toast.error(res.error)
+            throw new Error(res.error)
+          }
           dispatch(getMeme(res.data as meme[]))
-          setLoaing(false)
+          setLoading(false)
         })
+        .catch(error => console.log(error))
       } 
       catch (error) {
-        setLoaing(false)
+        setLoading(false)
         console.log(false)
       }
     }

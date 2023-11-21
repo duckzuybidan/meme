@@ -4,6 +4,7 @@ import { getMeme } from "@/lib/redux/memeSlice"
 import { RootState } from "@/lib/redux/store"
 import { meme } from "@/lib/types"
 import { useEffect, useState } from "react"
+import toast from "react-hot-toast"
 import { useDispatch, useSelector } from "react-redux"
 
 
@@ -22,9 +23,15 @@ export default function HashTag({params}: {params: {tag: string}}) {
             })
             .then(res => res.json())
             .then(res => {
+              if (res.error) {
+                setLoading(false)
+                toast.error(res.error)
+                throw new Error(res.error)
+              }
               dispatch(getMeme(res.data as meme[]))
               setLoading(false)
             })
+            .catch(error => console.log(error))
           }
           catch (error) {
             setLoading(false)

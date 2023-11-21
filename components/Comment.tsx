@@ -6,6 +6,7 @@ import { AiOutlineEdit , AiOutlineDelete } from "react-icons/ai"
 import { useDispatch } from "react-redux"
 import { createComment, deleteComment, editComment } from "@/lib/redux/commentSlice"
 import { BiSolidDownArrow, BiSolidUpArrow } from "react-icons/bi";
+import toast from "react-hot-toast"
 export default function Comment({rootComment, replies}: {rootComment: comment, replies: comment[] | null}) {
   const [userRef, setUserRef] = useState<user | null>(null)
   const { currentUser } = useSelector((state: RootState) => state.user)
@@ -25,8 +26,13 @@ export default function Comment({rootComment, replies}: {rootComment: comment, r
     fetch(`/api/user/getById/${rootComment.userId}`)
     .then(res => res.json())
     .then(res => {
+      if (res.error) {
+        toast.error(res.error)
+        throw new Error(res.error)
+      }
       setUserRef(res.data as user)
     })
+    .catch(error => console.log(error))
   }, [rootComment.userId])
   const handleDelete = (e: React.SyntheticEvent<HTMLSpanElement>) => {
     e.stopPropagation()
@@ -34,7 +40,14 @@ export default function Comment({rootComment, replies}: {rootComment: comment, r
       method: 'DELETE',  
     })
     .then(res => res.json())
-    .then(res => dispatch(deleteComment(res.data as string)))
+    .then(res => {
+      if (res.error) {
+        toast.error(res.error)
+        throw new Error(res.error)
+      }
+      dispatch(deleteComment(res.data as string))
+    })
+    .catch(error => console.log(error))
   }
   const handleEdit = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -45,9 +58,14 @@ export default function Comment({rootComment, replies}: {rootComment: comment, r
     })
     .then(res => res.json())
     .then(res => {
+      if (res.error) {
+        toast.error(res.error)
+        throw new Error(res.error)
+      }
       dispatch(editComment(res.data as comment))
       setEditMode(false)
     })
+    .catch(error => console.log(error))
   }
   const handleReply = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -61,8 +79,13 @@ export default function Comment({rootComment, replies}: {rootComment: comment, r
     })
     .then(res => res.json())
     .then(res => {
+      if (res.error) {
+        toast.error(res.error)
+        throw new Error(res.error)
+      }
       dispatch(createComment(res.data as comment))
     })
+    .catch(error => console.log(error))
     setNewReply({...newReply, body: ''})
     setOnReply(false)
     setShowReplies(true)

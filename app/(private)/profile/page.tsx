@@ -51,12 +51,13 @@ export default function Page() {
           if (res.error) {
             setLoading(false)
             toast.error(res.error)
-            return
+            throw new Error(res.error)
           }
           dispatch(updateUser(res.data as user))
           toast.success(res.message)
           setLoading(false)
         })
+        .catch((error) => console.log(error))
         return
       }
       const storage = getStorage(app)

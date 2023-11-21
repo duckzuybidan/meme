@@ -28,9 +28,14 @@ export default function AuthMenu() {
       fetch('/api/auth/signout')
       .then(res => res.json())
       .then(res => {
+        if (res.error) {
+          toast.error(res.error)
+          throw new Error(res.error)
+        }
         dispatch(signOut())
         toast.success("Sign out success!")
       })
+      .catch(error => console.log(error))
     } 
     catch (error) {
       console.log(error)

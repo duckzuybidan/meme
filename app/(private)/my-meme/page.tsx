@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { getMeme } from "@/lib/redux/memeSlice"
 import { RootState } from '@/lib/redux/store'
 import { meme } from '@/lib/types'
+import toast from 'react-hot-toast'
 export default function Page() {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
@@ -21,9 +22,15 @@ export default function Page() {
         })
         .then(res => res.json())
         .then(res => {
-          dispatch(getMeme(res.data))
+          if (res.error) {
+            setLoading(false)
+            toast.error(res.error)
+            throw new Error(res.error)
+          }
+          dispatch(getMeme(res.data as meme[]))
           setLoading(false)
         }) 
+        .catch(error => console.log(error))
       }
       catch (error) {
         console.log(error)  

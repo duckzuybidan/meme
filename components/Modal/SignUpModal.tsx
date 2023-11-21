@@ -32,12 +32,13 @@ export default function SignUpModal({modal, onClose}: {modal: signUpModal, onClo
         if (res.error) {
           setLoading(false)
           toast.error(res.error)
-          return
+          throw new Error(res.error)
         }
         toast.success(res.message)
         setLoading(false)
         onClose()
       })
+      .catch(error => console.log(error))
     } 
     catch (error) {
       setLoading(false)

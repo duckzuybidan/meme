@@ -30,6 +30,11 @@ export default function OAuth() {
       })
       .then(res => res.json())
       .then(res => {
+        if (res.error) {
+          setLoading(false)
+          toast.error(res.error)
+          throw new Error(res.error)
+        }
         setLoading(false)
         toast.success(res.message)
         dispatch(signIn(res.data))
@@ -38,6 +43,7 @@ export default function OAuth() {
         setSignInModal({open: false})
         setSignUpModal({open: false})
       })
+      .catch(error => console.log(error))
     } catch (error) {
       setLoading(false)
       console.log(error)

@@ -118,14 +118,16 @@ export default function UploadModal({modal, onClose}: {modal: uploadModal, onClo
               if (res.error) {
                 setLoading(false)
                 toast.error(res.error)
-                return
+                throw new Error(res.error)
               }
               setLoading(false)
               toast.success(res.message)
               dispatch(createMeme(res.data as meme))
               onClose()
             })
+            .catch(error => console.log(error))
           })
+          .catch(error => console.log(error))
           }
         )
       }

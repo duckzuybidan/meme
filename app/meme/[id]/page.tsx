@@ -38,6 +38,11 @@ export default function Page({params}: {params: {id:string}}) {
         })
         .then(res => res.json())
         .then(res => {
+          if (res.error) {
+            setLoading(false)
+            toast.error(res.error)
+            throw new Error(res.error)
+          }
           setMeme(res.data as meme)
           return res.data as meme
         })
@@ -49,8 +54,15 @@ export default function Page({params}: {params: {id:string}}) {
           })
           .then(res => res.json())
           .then(res => {
+            if (res.error) {
+              setLoading(false)
+              toast.error(res.error)
+              throw new Error(res.error)
+            }
             setUserRef(res.data as user)
           })
+          .catch(error => console.log(error))
+
           fetch(`/api/comment/getByMemeId/${meme._id}`, {
             next:{
               revalidate: 5
@@ -58,13 +70,21 @@ export default function Page({params}: {params: {id:string}}) {
           })
           .then(res => res.json())
           .then(res => {
+            if (res.error) {
+              setLoading(false)
+              toast.error(res.error)
+              throw new Error(res.error)
+            }
             dispatch(getComment(res.data as comment[]))
           })
+          .catch(error => console.log(error))
+          
           setDownloads(meme.downloads)
           setLikes(meme.likes.length)
           setIsLike(meme.likes.includes(currentUser?._id as string))
           setLoading(false)
         })
+        .catch(error => console.log(error))
       }
       catch (error) {
         setLoading(false)
@@ -86,36 +106,65 @@ export default function Page({params}: {params: {id:string}}) {
       aTag.remove()
       URL.revokeObjectURL(url)
     })
-    .then(async () => {
-      await fetch(`/api/meme/actions/download/${meme?._id}`, {
+    .then(() => {
+      fetch(`/api/meme/actions/download/${meme?._id}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({downloads: downloads + 1})
       })
-      setDownloads(downloads + 1)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          setLoading(false)
+          toast.error(res.error)
+          throw new Error(res.error)
+        }
+        setDownloads(downloads + 1)
+      })
+      .catch(error => console.log(error))
     })
   }
-  const handleLike = async () => {
+  const handleLike = () => {
     if(!currentUser){
       toast.error("You have to sign in to like this meme!")
       return
     }
-    await fetch(`/api/meme/actions/like/${meme?._id}`, {
+    fetch(`/api/meme/actions/like/${meme?._id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({likeUserId: currentUser?._id})
     })
-    setLikes(likes + 1)
-    setIsLike(true)
+    .then(res => res.json())
+    .then(res => {
+      if (res.error) {
+        setLoading(false)
+        toast.error(res.error)
+        throw new Error(res.error)
+      }
+      setLikes(likes + 1)
+      setIsLike(true)
+    })
+    .catch(error => console.log(error))
+    
   }
-  const handleUnlike = async () => {
-    await fetch(`/api/meme/actions/unlike/${meme?._id}`, {
+  const handleUnlike = () => {
+    fetch(`/api/meme/actions/unlike/${meme?._id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({unlikeUserId: currentUser?._id})
     })
-    setLikes(likes - 1)
-    setIsLike(false)
+    .then(res => res.json())
+    .then(res => {
+      if (res.error) {
+        setLoading(false)
+        toast.error(res.error)
+        throw new Error(res.error)
+      }
+      setLikes(likes - 1)
+      setIsLike(false)
+    })
+    .catch(error => console.log(error))
+    
   }
   const handleComment = (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -128,9 +177,16 @@ export default function Page({params}: {params: {id:string}}) {
     })
     .then(res => res.json())
     .then(res => {
+      if (res.error) {
+        setLoading(false)
+        toast.error(res.error)
+        throw new Error(res.error)
+      }
       dispatch(createComment(res.data as comment))
+      setNewComment({...newComment, body: ''})
     })
-    setNewComment({...newComment, body: ''})
+    .catch(error => console.log(error))
+    
   }
   return (
     <>

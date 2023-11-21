@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/redux/store';
 import MemeCard from '@/components/Meme/MemeCard';
 import { meme } from '@/lib/types';
+import toast from 'react-hot-toast';
 export default function Page() {
-  const [loading, setLoaing] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -18,7 +19,7 @@ export default function Page() {
   const memesPerPage = 30
   useEffect(() => {
     const fetchData = () => {
-      setLoaing(true)
+      setLoading(true)
       try {
         fetch('/api/meme/getAll', {
           next:{
@@ -27,12 +28,18 @@ export default function Page() {
         })
         .then(res => res.json())
         .then(res => {
+          if (res.error) {
+            setLoading(false)
+            toast.error(res.error)
+            throw new Error(res.error)
+          }
           dispatch(getMeme(res.data as meme[]))
-          setLoaing(false)
+          setLoading(false)
         }) 
+        .catch(error => console.log(error))
       }
       catch (error) {
-        setLoaing(false)
+        setLoading(false)
         console.log(error)  
       }
     }
