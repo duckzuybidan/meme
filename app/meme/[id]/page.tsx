@@ -90,7 +90,7 @@ export default function Page({params}: {params: {id:string}}) {
       await fetch(`/api/meme/actions/download/${meme?._id}`, {
         method: 'PUT',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(downloads + 1)
+        body: JSON.stringify({downloads: downloads + 1})
       })
       setDownloads(downloads + 1)
     })
@@ -103,7 +103,7 @@ export default function Page({params}: {params: {id:string}}) {
     await fetch(`/api/meme/actions/like/${meme?._id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(currentUser?._id)
+      body: JSON.stringify({likeUserId: currentUser?._id})
     })
     setLikes(likes + 1)
     setIsLike(true)
@@ -112,7 +112,7 @@ export default function Page({params}: {params: {id:string}}) {
     await fetch(`/api/meme/actions/unlike/${meme?._id}`, {
       method: 'PUT',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(currentUser?._id)
+      body: JSON.stringify({unlikeUserId: currentUser?._id})
     })
     setLikes(likes - 1)
     setIsLike(false)

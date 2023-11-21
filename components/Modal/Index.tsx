@@ -18,10 +18,10 @@ export default memo(function Modals() {
       setDeleteModal } = useContext(ModalContext) as modalContext
     return (
     <>
-       <SignInModal modal={signInModal} onClose={() => setSignInModal({open: false})}/>
-       <SignUpModal modal={signUpModal} onClose={() => setSignUpModal({open: false})}/>
-       <UploadModal modal={uploadModal} onClose={() => setUploadModal({open: false})}/>
-       <DeleteModal modal={deleteModal} onClose={() => setDeleteModal({open: false})}/>
+       <SignInModal modal={signInModal} onClose={() => setSignInModal({...signInModal, open: false})}/>
+       <SignUpModal modal={signUpModal} onClose={() => setSignUpModal({...signUpModal, open: false})}/>
+       <UploadModal modal={uploadModal} onClose={() => setUploadModal({...uploadModal, open: false})}/>
+       <DeleteModal modal={deleteModal} onClose={() => setDeleteModal({...deleteModal, open: false})}/>
     </>
   )
 })

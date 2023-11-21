@@ -1,17 +1,25 @@
-export interface modal {
+interface modal {
     open:boolean,
-    meme?: meme
-    mode?: 'create' | 'edit'
+    
+}
+export interface signInModal extends modal {}
+export interface signUpModal extends modal {}
+export interface uploadModal extends modal {
+    meme: meme | null
+    mode: 'create' | 'edit'
+}
+export interface deleteModal extends modal {
+  meme: meme | null
 }
   export interface modalContext {
-    signInModal: modal,
-    setSignInModal: React.Dispatch<React.SetStateAction<modal>>,
-    signUpModal: modal,
-    setSignUpModal: React.Dispatch<React.SetStateAction<modal>>,
-    uploadModal: modal,
-    setUploadModal: React.Dispatch<React.SetStateAction<modal>>,
-    deleteModal: modal,
-    setDeleteModal: React.Dispatch<React.SetStateAction<modal>>
+    signInModal: signInModal,
+    setSignInModal: React.Dispatch<React.SetStateAction<signInModal>>,
+    signUpModal: signUpModal,
+    setSignUpModal: React.Dispatch<React.SetStateAction<signUpModal>>,
+    uploadModal: uploadModal,
+    setUploadModal: React.Dispatch<React.SetStateAction<uploadModal>>,
+    deleteModal: deleteModal,
+    setDeleteModal: React.Dispatch<React.SetStateAction<deleteModal>>
 }
 
 export interface user{

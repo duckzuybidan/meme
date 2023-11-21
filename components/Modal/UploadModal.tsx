@@ -11,8 +11,8 @@ import { useSelector } from 'react-redux'
 import { RootState } from '@/lib/redux/store'
 import { useDispatch } from 'react-redux'
 import { createMeme, editMeme } from '@/lib/redux/memeSlice'
-import {meme, modal} from "@/lib/types"
-export default function UploadModal({modal, onClose}: {modal: modal, onClose: () => void}) {
+import {meme, uploadModal} from "@/lib/types"
+export default function UploadModal({modal, onClose}: {modal: uploadModal, onClose: () => void}) {
   const { currentUser } = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch()
   const [disabled, setDisable] = useState(true)
@@ -50,8 +50,8 @@ export default function UploadModal({modal, onClose}: {modal: modal, onClose: ()
     setFormData(formData => {
       return {
       ...formData,
-      title: modal.meme?.title as string,
-      description: modal.meme?.description as string,
+      title: (modal.meme?.title ? modal.meme?.title as string: ''),
+      description: (modal.meme?.description ? modal.meme?.description as string : ''),
       tags: (modal.meme?.tags ? modal.meme?.tags : [] as string[])
       }
   })

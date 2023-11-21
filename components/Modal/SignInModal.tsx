@@ -6,8 +6,8 @@ import OAuth from '../OAuth'
 import { signIn } from '@/lib/redux/userSlice'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
-import { user, modal, modalContext } from "@/lib/types"
-export default function SignInModal({modal, onClose}: {modal: modal, onClose: () => void}) {
+import { user, modalContext, signInModal } from "@/lib/types"
+export default function SignInModal({modal, onClose}: {modal: signInModal, onClose: () => void}) {
   const [formData, setFormData] = useState({})
   const [loading, setLoading] = useState(false)
   const { setSignInModal, setSignUpModal } = useContext(ModalContext) as modalContext

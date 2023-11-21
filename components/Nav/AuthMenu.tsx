@@ -19,6 +19,7 @@ export default function AuthMenu() {
   const handleUpload = () => {
     setUploadModal({
       open: true,
+      meme: null,
       mode: 'create'
     })
   }

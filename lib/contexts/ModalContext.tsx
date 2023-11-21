@@ -1,20 +1,22 @@
 "use client"
 import React, { useState, createContext } from "react"
-import { modal, modalContext } from "../types"
+import { signInModal, signUpModal, uploadModal, deleteModal, modalContext } from "../types"
 export const ModalContext = createContext<modalContext | null>(null)
 export const ModalProvider = ({children} : { children: React.ReactNode }) => {
-    const [signInModal, setSignInModal] = useState<modal>({
+    const [signInModal, setSignInModal] = useState<signInModal>({
       open: false
     })
-    const [signUpModal, setSignUpModal] = useState<modal>({
+    const [signUpModal, setSignUpModal] = useState<signUpModal>({
       open: false
     })
-    const [uploadModal, setUploadModal] = useState<modal>({
+    const [uploadModal, setUploadModal] = useState<uploadModal>({
       open: false,
+      meme: null,
       mode: 'create'
     })
-    const [deleteModal, setDeleteModal] = useState<modal>({
+    const [deleteModal, setDeleteModal] = useState<deleteModal>({
       open: false,
+      meme: null
     })
     return (
       <ModalContext.Provider value={{
