@@ -48,7 +48,7 @@ export default function Result() {
     const urlParams = new URLSearchParams(searchParams.toString())
     urlParams.set('page', page.toString())
     const searchQuery = urlParams.toString()
-    router.push(`result?${searchQuery}`)
+    router.push(`/result?${searchQuery}`)
   }
   const idxOfLastMeme = currentPage * memesPerPage
   const idxOfFirstMeme = idxOfLastMeme - memesPerPage
@@ -57,7 +57,8 @@ export default function Result() {
     <>
     {loading && <p className='text-center my-7 text-3xl font-bold'>Loading...</p>}
     {!loading && memeList &&
-    <div>
+    <>
+      {memeList.length === 0 && <p className='text-center my-7 text-3xl font-bold'>No result</p>}
       <ul className='grid xl:grid-cols-5 gap-6 mt-10 p-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-[400px]:gap-3'>
         {currentMemes.map((meme: meme) => 
           <MemeCard key={meme.firebaseName} meme={meme} mode='watchOnly'/>
@@ -72,7 +73,7 @@ export default function Result() {
           />
         </div>
       }
-    </div>
+    </>
     }
     </>
   )

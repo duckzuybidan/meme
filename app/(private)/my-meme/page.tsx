@@ -36,11 +36,14 @@ export default function Page() {
     <>
     {loading && <p className='text-center my-7 text-3xl font-bold'>Loading...</p>}
     {!loading && memeList &&
+      <>
+      {memeList.length === 0 && <p className='text-center my-7 text-3xl font-bold'>You have not created any memes before!</p>}
       <ul className='grid xl:grid-cols-5 gap-6 mt-10 p-5 max-xl:grid-cols-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-[400px]:gap-3'>
       {memeList.map((meme: meme) => 
         <MemeCard key={meme.firebaseName} meme={meme} mode='editable'/>
       )}
       </ul>
+      </>
     }
     </>
   )

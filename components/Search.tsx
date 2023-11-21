@@ -16,7 +16,7 @@ export default function Search() {
         const urlParams = new URLSearchParams()
         urlParams.set('searchTerm', searchTerm)
         const searchQuery = urlParams.toString()
-        router.push(`result?${searchQuery}`)
+        router.push(`/result?${searchQuery}`)
     }
     return (
     <form 

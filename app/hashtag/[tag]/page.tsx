@@ -37,7 +37,7 @@ export default function HashTag({params}: {params: {tag: string}}) {
         <>
         {loading && <p className='text-center my-7 text-3xl font-bold'>Loading...</p>}
         {!loading && memeList &&
-        <div>
+        <>
             <div className="m-5">
             <h1 className="font-bold text-3xl">Hash Tag: #{params.tag}</h1>
             {memeList.length === 0 && <p>No result</p>}
@@ -49,7 +49,7 @@ export default function HashTag({params}: {params: {tag: string}}) {
              <MemeCard key={meme.firebaseName} meme={meme} mode='watchOnly'/>
             )}
             </ul>
-        </div>
+        </>
         }
         </>
   )

@@ -168,7 +168,7 @@ export default function Page({params}: {params: {id:string}}) {
       <div className="p-5 pb-10 bg-slate-100 rounded-lg w-2/3 h-max">
       <h2 className="font-semibold text-lg text-center">DESCRIPTION</h2>
       <div className="flex space-x-2">
-      {meme.tags.map(tag => <Link key={meme._id} className="text-sky-500 underline" href={`/hashtag/${tag}`}>#{tag}</Link>)}
+      {meme.tags.map((tag, i) => <Link key={i} className="text-sky-500 underline" href={`/hashtag/${tag}`}>#{tag}</Link>)}
       </div>
       <p className="break-words" dangerouslySetInnerHTML={{__html: meme.description.replace(/\n/g, '<br/>')}}/>
       </div>
