@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
             sortField = 'likes'
             break
     }
-    
     try{
         const memes = await Meme
         .find({
@@ -33,8 +32,6 @@ export async function GET(req: NextRequest) {
             ['createdAt']: -1
 
         })
-
-       
         return NextResponse.json({data: memes})
     }
     catch(error){
