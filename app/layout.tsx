@@ -4,7 +4,7 @@ import Topbar from '@/components/Nav/Topbar'
 import './globals.css'
 // @refresh reset
 import { ModalProvider } from '@/lib/contexts/ModalContext'
-import Modals from '@/components/Modal/Index'
+import Modals from '@/components/Modal/Modals'
 import ReduxProvider from '@/lib/redux/ReduxProvider'
 import { Toaster }  from 'react-hot-toast'
 

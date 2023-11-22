@@ -9,7 +9,7 @@ const commentSlice = createSlice({
   initialState,
   reducers: {
     getComment: (state, action: PayloadAction<comment[]>) => {
-      state.commentList = action.payload.reverse()
+      state.commentList = action.payload
     },
     createComment: (state, action: PayloadAction<comment>) => {
       state.commentList = [action.payload, ...state.commentList]

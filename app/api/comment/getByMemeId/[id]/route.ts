@@ -6,7 +6,7 @@ export async function GET(req: NextRequest, {params}: {params: {id:string}}) {
     await connectDB()
     try {
         
-        const data = await Comment.find({memeId: params.id})
+        const data = await Comment.find({memeId: params.id}).sort({createdAt: -1})
         return NextResponse.json({data: data})
     } 
     catch (error) {

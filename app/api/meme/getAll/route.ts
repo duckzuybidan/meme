@@ -5,7 +5,7 @@ export const revalidate = 5;
 export async function GET(req: NextRequest) {
     await connectDB()
     try {
-        const data = await Meme.find({})
+        const data = await Meme.find({}).sort({createdAt: -1})
         return NextResponse.json({data: data})
         
     } 

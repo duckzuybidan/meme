@@ -6,6 +6,7 @@ import { useContext, memo } from "react"
 import UploadModal from "./UploadModal"
 import DeleteModal from "./DeleteModal"
 import { modalContext } from "@/lib/types"
+import FiltersModal from "./FiltersModal"
 export default memo(function Modals() {
     const {
       signInModal,
@@ -15,13 +16,16 @@ export default memo(function Modals() {
       uploadModal,
       setUploadModal,
       deleteModal,
-      setDeleteModal } = useContext(ModalContext) as modalContext
+      setDeleteModal,
+      filtersModal,
+      setFiltersModal } = useContext(ModalContext) as modalContext
     return (
     <>
        <SignInModal modal={signInModal} onClose={() => setSignInModal({...signInModal, open: false})}/>
        <SignUpModal modal={signUpModal} onClose={() => setSignUpModal({...signUpModal, open: false})}/>
        <UploadModal modal={uploadModal} onClose={() => setUploadModal({...uploadModal, open: false})}/>
        <DeleteModal modal={deleteModal} onClose={() => setDeleteModal({...deleteModal, open: false})}/>
+       <FiltersModal modal={filtersModal} onClose={() => setFiltersModal({...filtersModal, open: false})}/>
     </>
   )
 })

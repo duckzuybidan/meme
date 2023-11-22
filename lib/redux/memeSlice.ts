@@ -9,7 +9,7 @@ const memeSlice = createSlice({
   initialState,
   reducers: {
     getMeme: (state, action: PayloadAction<meme[]>) => {
-      state.memeList = action.payload.reverse()
+      state.memeList = action.payload
     },
     createMeme: (state, action: PayloadAction<meme>) => {
       state.memeList = [action.payload, ...state.memeList]
