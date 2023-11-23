@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
     await connectDB()
     const formData = await req.json()
     try{
-        ytdl(formData.url).pipe(fs.createWriteStream('public/video.mp4'))
+        await ytDownload(formData.url)
         return NextResponse.json({message: 'success'})
     }
     catch(error){
