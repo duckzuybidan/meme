@@ -2,11 +2,10 @@ import { NextRequest, NextResponse } from "next/server"
 import ytdl from "@distube/ytdl-core"
 import fs from 'fs'
 import connectDB from '@/lib/connectDB'
-export const revalidate = 5
 const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
-            ytdl(url).pipe(fs.createWriteStream('public/video123.mp4')).on('finish', () => {
+            ytdl(url).pipe(fs.createWriteStream('public/video.mp4')).on('finish', () => {
                 resolve('Download success')
             })
         }
