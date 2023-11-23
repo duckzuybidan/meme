@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@distube/ytdl-core": "^4.13.3",
     "@headlessui/react": "^1.7.17",
     "@reduxjs/toolkit": "^1.9.7",
     "encoding": "^0.1.13",

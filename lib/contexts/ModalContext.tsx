@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, createContext } from "react"
-import { signInModal, signUpModal, uploadModal, deleteModal, modalContext, filtersModal } from "../types"
+import { signInModal, signUpModal, uploadModal, deleteModal, modalContext, filtersModal, quickUploadModal } from "../types"
 export const ModalContext = createContext<modalContext | null>(null)
 export const ModalProvider = ({children} : { children: React.ReactNode }) => {
     const [signInModal, setSignInModal] = useState<signInModal>({
@@ -21,6 +21,9 @@ export const ModalProvider = ({children} : { children: React.ReactNode }) => {
     const [filtersModal, setFiltersModal] = useState<filtersModal>({
       open: false
     })
+    const [quickUploadModal, setQuickUploadModal] = useState<quickUploadModal>({
+      open: false
+    })
     return (
       <ModalContext.Provider value={{
             signInModal, 
@@ -32,7 +35,9 @@ export const ModalProvider = ({children} : { children: React.ReactNode }) => {
             deleteModal,
             setDeleteModal,
             filtersModal,
-            setFiltersModal
+            setFiltersModal,
+            quickUploadModal,
+            setQuickUploadModal
         }}>
         {children}
       </ModalContext.Provider>

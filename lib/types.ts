@@ -17,6 +17,9 @@ export interface deleteModal {
 export interface filtersModal {
     open:boolean,
 }
+export interface quickUploadModal{
+    open: boolean
+}
 export interface modalContext {
     signInModal: signInModal,
     setSignInModal: React.Dispatch<React.SetStateAction<signInModal>>,
@@ -28,6 +31,8 @@ export interface modalContext {
     setDeleteModal: React.Dispatch<React.SetStateAction<deleteModal>>,
     filtersModal: filtersModal,
     setFiltersModal: React.Dispatch<React.SetStateAction<filtersModal>>,
+    quickUploadModal: quickUploadModal,
+    setQuickUploadModal: React.Dispatch<React.SetStateAction<quickUploadModal>>,
 }
 
 export interface user{

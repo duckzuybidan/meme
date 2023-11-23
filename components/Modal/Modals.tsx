@@ -7,6 +7,7 @@ import UploadModal from "./UploadModal"
 import DeleteModal from "./DeleteModal"
 import { modalContext } from "@/lib/types"
 import FiltersModal from "./FiltersModal"
+import QuickUploadModal from "./QuickUploadModal"
 export default memo(function Modals() {
     const {
       signInModal,
@@ -18,7 +19,9 @@ export default memo(function Modals() {
       deleteModal,
       setDeleteModal,
       filtersModal,
-      setFiltersModal } = useContext(ModalContext) as modalContext
+      setFiltersModal,
+      quickUploadModal,
+      setQuickUploadModal } = useContext(ModalContext) as modalContext
     return (
     <>
        <SignInModal modal={signInModal} onClose={() => setSignInModal({...signInModal, open: false})}/>
@@ -26,6 +29,7 @@ export default memo(function Modals() {
        <UploadModal modal={uploadModal} onClose={() => setUploadModal({...uploadModal, open: false})}/>
        <DeleteModal modal={deleteModal} onClose={() => setDeleteModal({...deleteModal, open: false})}/>
        <FiltersModal modal={filtersModal} onClose={() => setFiltersModal({...filtersModal, open: false})}/>
+       <QuickUploadModal modal={quickUploadModal} onClose={() => setQuickUploadModal({...quickUploadModal, open: false})}/>
     </>
   )
 })

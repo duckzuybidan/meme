@@ -12,10 +12,11 @@ import { useDispatch, useSelector } from "react-redux"
 import { useContext } from "react"
 import { ModalContext } from "@/lib/contexts/ModalContext"
 import { modalContext } from "@/lib/types"
+import { IoFlashOutline } from "react-icons/io5";
 export default function AuthMenu() {
   const { currentUser } = useSelector((state : RootState) => state.user)
   const dispatch = useDispatch()
-  const {setUploadModal} = useContext(ModalContext) as modalContext
+  const {setUploadModal, setQuickUploadModal} = useContext(ModalContext) as modalContext
   const handleUpload = () => {
     setUploadModal({
       open: true,
@@ -41,6 +42,11 @@ export default function AuthMenu() {
       console.log(error)
     }
   }
+  const handleQuickUpload = () => {
+    setQuickUploadModal({
+      open: true
+    })
+  }
   return (
     <Menu as='div' className='text-white font-semibold relative z-50'>
         <Menu.Button>
@@ -50,7 +56,7 @@ export default function AuthMenu() {
                 className="rounded-full w-[32px] h-[32px]"
             />
         </Menu.Button>
-        <Menu.Items as='div' className='absolute p-2 bg-slate-300 w-32 right-[-20px] rounded-xl space-y-2'>
+        <Menu.Items as='div' className='absolute p-2 bg-slate-300 w-40 right-[-20px] rounded-xl space-y-2'>
             <Menu.Item as= {Link} href='/profile' className='flex items-center bg-blue-400 p-0.5 rounded-md cursor-pointer hover:bg-opacity-70'>
               <CgProfile className='mr-1'/>
               Profile
@@ -63,6 +69,11 @@ export default function AuthMenu() {
               <MdOutlineCreateNewFolder className='mr-1'/>
               Create Meme
             </Menu.Item>
+            <Menu.Item as= 'div' className='flex items-center bg-blue-400 p-0.5 rounded-md cursor-pointer hover:bg-opacity-70' onClick={handleQuickUpload}>
+              <IoFlashOutline className='mr-1'/>
+              Quick Upload
+            </Menu.Item>
+
             <Menu.Item as='div' className='flex items-center bg-red-500 p-0.5 rounded-md cursor-pointer hover:bg-opacity-70' onClick={handleSignOut}>
               <GoSignOut className='mr-1'/>
               Sign Out

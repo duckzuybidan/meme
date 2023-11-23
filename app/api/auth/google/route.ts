@@ -28,6 +28,6 @@ export async function POST(req: NextRequest) {
         }
       } 
       catch (error) {
-        return NextResponse.json({error: error})
+        return NextResponse.json({error: new Error(error as any).message})
       }
 }

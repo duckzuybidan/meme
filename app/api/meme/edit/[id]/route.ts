@@ -20,6 +20,6 @@ export async function PUT(req: NextRequest, {params}: {params: {id:string}}) {
       return NextResponse.json({data: editedMeme, message: "Upload successfully!"})
     } 
     catch (error) {
-        return NextResponse.json({error: error})
+      return NextResponse.json({error: new Error(error as any).message})
     }
 }

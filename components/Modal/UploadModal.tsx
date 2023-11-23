@@ -185,7 +185,7 @@ export default function UploadModal({modal, onClose}: {modal: uploadModal, onClo
           />
           
             {formData.type === 'image' && <img src={preview} alt='preview' className="object-cover object-center rounded-lg h-48 w-48"/>}
-            {formData.type === 'video' && <video src={preview}  controls className="object-cover object-center rounded-lg h-48 w-48"/>}
+            {formData.type === 'video' && <video src={preview}  controls controlsList='nodownload' className="object-cover object-center rounded-lg h-48 w-48"/>}
             </>
           ) : (
             <>

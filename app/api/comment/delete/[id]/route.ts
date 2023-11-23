@@ -10,6 +10,6 @@ export async function DELETE(req: NextRequest, {params}: {params: {id: string}})
         
     } 
     catch (error) {
-        return NextResponse.json({error: error})
+        return NextResponse.json({error: new Error(error as any).message})
     }
 }

@@ -23,6 +23,6 @@ export async function POST(req: NextRequest) {
       cookies().set('access_token', token, {httpOnly: true})
       return NextResponse.json({data: validUser, message: "Sign in success!"})
     } catch (error) {
-      return NextResponse.json({error: error})
+      return NextResponse.json({error: new Error(error as any).message})
     }
 }

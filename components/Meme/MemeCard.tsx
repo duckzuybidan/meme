@@ -29,7 +29,7 @@ export default function MemeCard({meme, mode} : {meme: meme, mode: 'editable' | 
   }
     return (
     <li 
-      className="bg-slate-200 w-full h-80 rounded-lg p-3 cursor-pointer shadow-inner hover:bg-slate-300 max-[400px]:h-72 overflow-hidden pt-8 relative"
+      className="bg-slate-200 w-full h-80 rounded-lg p-3 cursor-pointer shadow-inner hover:bg-slate-300 max-[400px]:h-60 overflow-hidden pt-8 relative"
       onClick={handleClick}
     >
       {mode === 'editable' &&
@@ -57,7 +57,7 @@ export default function MemeCard({meme, mode} : {meme: meme, mode: 'editable' | 
           <video src={meme.url} className="object-cover object-center rounded-lg h-48 w-full max-[400px]:h-36"/>
         </div>
       }
-      <h3 className="font-semibold text-lg break-all">{meme.title.length <= 30 ? meme.title : meme.title.substring(0, 31) + '...'}</h3>
+      <h3 className="font-semibold text-lg break-all max-[400px]:text-md">{meme.title.length <= 30 ? meme.title : meme.title.substring(0, 31) + '...'}</h3>
     </li>
   )
 }

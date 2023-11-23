@@ -6,6 +6,6 @@ export async function GET(req: NextRequest) {
        return NextResponse.json({message: "Sign out success!"}) 
     } 
     catch (error) {
-        return NextResponse.json({error: error})
+        return NextResponse.json({error: new Error(error as any).message})
     }
 }

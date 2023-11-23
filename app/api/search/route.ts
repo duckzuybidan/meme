@@ -35,7 +35,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json({data: memes})
     }
     catch(error){
-        return NextResponse.json({error: error})
+        return NextResponse.json({error: new Error(error as any).message})
     }
    
 }

@@ -20,6 +20,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json({data: newMeme, message: "Upload successfully!"})
     } 
     catch (error) {
-        return NextResponse.json({error: error})
+        return NextResponse.json({error: new Error(error as any).message})
     }
 }

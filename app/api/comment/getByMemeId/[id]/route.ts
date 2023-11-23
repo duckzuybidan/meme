@@ -10,6 +10,6 @@ export async function GET(req: NextRequest, {params}: {params: {id:string}}) {
         return NextResponse.json({data: data})
     } 
     catch (error) {
-        return NextResponse.json({error: error})
+        return NextResponse.json({error: new Error(error as any).message})
     }
 }

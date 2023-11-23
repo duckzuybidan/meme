@@ -17,6 +17,6 @@ export async function PUT(req: NextRequest, {params}: {params: {id:string}}) {
         return NextResponse.json({message: "Success!"})
     } 
     catch (error) {
-        return NextResponse.json({error: error})
+        return NextResponse.json({error: new Error(error as any).message})
     }
 }
