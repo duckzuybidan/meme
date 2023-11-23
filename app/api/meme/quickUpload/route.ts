@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import ytdl from "ytdl-core"
 import fs from 'fs'
 import connectDB from '@/lib/connectDB'
-
+export const revalidate = 5
 const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
@@ -15,14 +15,12 @@ const ytDownload = (url: string) => {
         }
     }) 
 }
-export async function POST(req: NextRequest) {
+export async function GET(req: NextRequest) {
     await connectDB()
-    const formData = await req.json()
+    const url = req.nextUrl.searchParams.get('url') || ''
     try{
-        await ytDownload(formData.url)
-        .then(message => {
-            return NextResponse.json({message: message})
-        })
+        await ytDownload(url)
+        .then(message => console.log(message))
         .catch(error => {
             throw new Error(error)
         })

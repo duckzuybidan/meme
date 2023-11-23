@@ -32,6 +32,7 @@ export default function Page() {
       setImage(URL.createObjectURL(file))
     }
     if (file) {
+      console.log(file)
       handleFileUpload(file)
     }
   }, [file])
