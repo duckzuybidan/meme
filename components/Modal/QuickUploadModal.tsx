@@ -23,6 +23,7 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
             toast.error(res.error)
             throw new Error(res.error)
           }
+          console.log(res)
           fetch('/video.mp4', {
             next: {
               revalidate: 5
