@@ -174,8 +174,8 @@ export default function UploadModal({modal, onClose}: {modal: uploadModal, onClo
               types={fileTypes}
               label='Upload your meme'
               handleChange={(file: File) => setFile(file as File)}
-              maxSize={2}
-              onSizeError={() => setError('Only accept the size less than 2MB!')}
+              maxSize={5}
+              onSizeError={() => setError('Only accept the size less than 5MB!')}
               onTypeError={() => setError('Invalid file type!')}
               messages = {{
                   uploaded: file ? file.name : "",

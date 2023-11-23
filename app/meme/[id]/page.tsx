@@ -195,7 +195,7 @@ export default function Page({params}: {params: {id:string}}) {
     <div className="flex flex-col items-center gap-4 mt-11">
       {meme?.type === 'image' && <img src={meme.url} alt={meme.url} className="rounded-xl"/>}
       {meme?.type === 'video' && <video src={meme.url} controls  controlsList="nodownload" className="rounded-xl"/>}
-      <h1 className="font-bold text-2xl">{meme?.title}</h1>
+      <h1 className="font-bold text-2xl w-4/6 text-center break-all">{meme?.title}</h1>
       <div className="flex justify-around items-center w-3/5 max-lg:flex-col max-lg:gap-y-3 max-sm:w-full">
         <div className="flex gap-3 items-center">
           <img
