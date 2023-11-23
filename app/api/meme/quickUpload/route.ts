@@ -19,7 +19,13 @@ export async function POST(req: NextRequest) {
     await connectDB()
     const formData = await req.json()
     try{
-        await ytDownload('123')
+        await ytDownload(formData.url)
+        .then(message => {
+            return NextResponse.json({message: message})
+        })
+        .catch(error => {
+            throw new Error(error)
+        })
         return NextResponse.json({message: 'success'})
     }
     catch(error){
