@@ -1,5 +1,4 @@
 "use client"
-import path from "path"
 import { quickUploadModal } from "@/lib/types"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
@@ -24,11 +23,7 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
             toast.error(res.error)
             throw new Error(res.error)
           }
-          fetch('/video.mp4', {
-            next: {
-              revalidate: 5
-            }
-          })
+          fetch('/video.mp4', {})
           .then(res => res.blob())
           .then(blob => {
             const url = URL.createObjectURL(blob)

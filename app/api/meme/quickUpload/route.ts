@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server"
-import ytdl from "@distube/ytdl-core"
+import ytdl from "ytdl-core"
 import fs from 'fs'
 import connectDB from '@/lib/connectDB'
+
 const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
@@ -18,8 +19,7 @@ export async function POST(req: NextRequest) {
     await connectDB()
     const formData = await req.json()
     try{
-        const ytUrl = new URL(formData.url)
-        
+        ytdl(formData.url).pipe(fs.createWriteStream('public/video.mp4'))
         return NextResponse.json({message: 'success'})
     }
     catch(error){
