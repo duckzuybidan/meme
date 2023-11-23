@@ -26,7 +26,11 @@ export default function AuthMenu() {
   }
   const handleSignOut = () => {
     try {
-      fetch('/api/auth/signout')
+      fetch('/api/auth/signout', {
+        next: {
+          revalidate: 5
+        }
+      })
       .then(res => res.json())
       .then(res => {
         if (res.error) {
