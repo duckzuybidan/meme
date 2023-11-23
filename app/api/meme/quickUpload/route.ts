@@ -15,10 +15,11 @@ const ytDownload = (url: string) => {
         }
     }) 
 }
-export async function GET(req: NextRequest, {params}: {params: {url:string}}) {
+export async function POST(req: NextRequest) {
     await connectDB()
+    const formData = await req.json()
     try{
-        await ytDownload(params.url)
+        await ytDownload(formData.url)
         .then(message => console.log(message))
         .catch(error => {
             throw new Error(error as any)
