@@ -6,7 +6,7 @@ export const revalidate = 5
 const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
-            ytdl(url).pipe(fs.createWriteStream('public/video.mp4')).on('finish', () => {
+            ytdl(url).pipe(fs.createWriteStream('public/video123.mp4')).on('finish', () => {
                 resolve('Download success')
             })
         }
