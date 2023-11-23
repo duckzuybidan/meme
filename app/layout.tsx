@@ -9,7 +9,7 @@ import ReduxProvider from '@/lib/redux/ReduxProvider'
 import { Toaster }  from 'react-hot-toast'
 
 
-
+export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: 'Meme Store',
   description: 'DuckZuybidan',
