@@ -12,10 +12,10 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
         try{
-        fetch('/api/meme/quickUpload', {
-          method: "POST",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({url: url})
+        fetch(`/api/meme/quickUpload/getFileString?url=${url}`, {
+         next: {
+          revalidate: 5
+         }
         })
         .then(res => res.json())
         .then(res => {
@@ -23,8 +23,22 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
             toast.error(res.error)
             throw new Error(res.error)
           }
-          console.log(res)
-
+          return res.data
+        })
+        .then(res => {
+          fetch('/api/meme/quickUpload/uploadCloudinary', {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({fileString: res})
+          })
+          .then(res => res.json())
+          .then(res => {
+            if(res.error){
+              toast.error(res.error)
+              throw new Error(res.error)
+            }
+            console.log(res.data)
+          })
         })
         .catch(error => console.log(error))
       }
