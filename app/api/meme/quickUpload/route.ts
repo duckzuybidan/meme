@@ -13,27 +13,7 @@ const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
             ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4'))).on('finish', async () => {
-                const fileBuffer  = fs.readFileSync(path.join(process.cwd() + '/tmp/video.mp4'))
-                const fileString = fileBuffer.toString('base64');
-                cloudinary.uploader.upload(
-                    `data:video/mp4;base64,${fileString}`,
-                    {
-                    resource_type: 'auto',
-                      public_id: `${new Date().getTime()}`, 
-                      folder: 'memes',      
-                      format: 'mp4',                
-                    },
-                    (error, result) => {
-                      if (error) {
-                        reject(error)
-                      } 
-                      else {
-                        fs.unlinkSync(path.join(process.cwd() + '/tmp/video.mp4'))
-                        resolve(result?.url)
-                      }
-                    }
-                  )
-                    
+                resolve(ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4'))))
             })
             
         }
@@ -46,10 +26,14 @@ export async function POST(req: NextRequest) {
     await connectDB()
     const formData = await req.json() 
     try{
-        const res = fs.createReadStream(path.join(process.cwd() + '/tmp/video.mp4'))
-        const fileBuffer  = fs.readFileSync(path.join(process.cwd() + '/tmp/video.mp4'))
-              
-        return NextResponse.json({data: res, buffer: fileBuffer})
+        const res = await ytDownload(formData.url)
+        .then(url => {
+            return url
+        })
+        .catch(error => {
+            throw new Error(error)
+        })
+        return NextResponse.json({data: res})
     }
     catch(error){
         return NextResponse.json({error: new Error(error as any).message})
