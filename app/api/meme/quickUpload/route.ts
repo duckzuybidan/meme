@@ -6,7 +6,7 @@ import path from "path"
 const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
-            ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd(), '/video.mp4'))).on('finish', async () => {
+            ytdl(url).pipe(fs.createWriteStream('/video.mp4')).on('finish', async () => {
                 
                 resolve('Download success')
             })
