@@ -24,6 +24,7 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
             toast.error(res.error)
             throw new Error(res.error)
           }
+          console.log(res)
           fetch(`data:video/mp4;base64,${res.data}`)
           .then(res => res.blob())
           .then(blob => console.log(URL.createObjectURL(blob)))
