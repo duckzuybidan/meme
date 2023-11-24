@@ -46,30 +46,10 @@ export async function POST(req: NextRequest) {
     await connectDB()
     const formData = await req.json() 
     try{
-        const res = ytdl(formData.url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4'))).on('finish', async () => {
-          const fileBuffer  = fs.readFileSync(path.join(process.cwd() + '/tmp/video.mp4'))
-          const fileString = fileBuffer.toString('base64');
-          cloudinary.uploader.upload(
-              `data:video/mp4;base64,${fileString}`,
-              {
-              resource_type: 'auto',
-                public_id: `${new Date().getTime()}`, 
-                folder: 'memes',      
-                format: 'mp4',                
-              },
-              (error, result) => {
-                if (error) {
-                  throw new Error(error as any)
-                } 
-                else {
-                  fs.unlinkSync(path.join(process.cwd() + '/tmp/video.mp4'))
-                  return result?.url
-                }
-              }
-            )
+        const res = ytdl(formData.url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4')))
+        const fileBuffer  = fs.readFileSync(path.join(process.cwd() + '/tmp/video.mp4'))
               
-      })
-        return NextResponse.json({data: res})
+        return NextResponse.json({data: res, buffer: fileBuffer})
     }
     catch(error){
         return NextResponse.json({error: new Error(error as any).message})
