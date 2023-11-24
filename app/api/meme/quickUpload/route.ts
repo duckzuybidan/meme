@@ -13,7 +13,7 @@ const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
             ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4'))).on('finish', async () => {
-                resolve(ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4'))))
+                resolve(ytdl(url))
             })
             
         }
