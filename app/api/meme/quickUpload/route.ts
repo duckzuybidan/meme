@@ -6,7 +6,7 @@ import path from "path"
 const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
-            ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd(), '/public/video'))).on('finish', async () => {
+            ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd(), '/public/video.mp4'))).on('finish', async () => {
                 
                 resolve('Download success')
             })
@@ -19,15 +19,14 @@ const ytDownload = (url: string) => {
 }
 export async function POST(req: NextRequest) {
     await connectDB()
-    const formData = await req.json()
-    const p = path.join(process.cwd(), '/public/video')
+    const formData = await req.json() 
     try{
         await ytDownload(formData.url)
         .then(message => console.log(message))
         .catch(error => {
             throw new Error(error)
         })
-        return NextResponse.json({message: p})
+        return NextResponse.json({message: path.join(process.cwd(), '/public/video.mp4')})
     }
     catch(error){
         return NextResponse.json({error: new Error(error as any).message})
