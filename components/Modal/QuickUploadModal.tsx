@@ -24,7 +24,7 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
             toast.error(res.error)
             throw new Error(res.error)
           }
-          console.log(res)
+          console.log(res.data)
           
         })
         
