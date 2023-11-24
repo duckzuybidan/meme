@@ -24,23 +24,6 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
             throw new Error(res.error)
           }
           console.log(res)
-          fetch('/video.mp4', {
-            next: {
-              revalidate: 5
-            }
-          })
-          .then(res => res.blob())
-          .then(blob => {
-            const url = URL.createObjectURL(blob)
-            let aTag = document.createElement("a")
-            aTag.href = url
-            aTag.download = 'download'
-            document.body.append(aTag)
-            aTag.click()
-            aTag.remove()
-            URL.revokeObjectURL(url)
-            setUrl('')
-          })
         })
         .catch(error => console.log(error))
       }
