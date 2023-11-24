@@ -8,7 +8,9 @@ const getFileString = async (url: string) => {
     for await (const chunk of stream) {
       chunks.push(chunk)
     }
-    return chunks
+    const buffer = Buffer.concat(chunks)
+    const fileString = buffer.toString("base64")
+    return fileString
   } 
   catch (error) {
     throw new Error(error as any)
