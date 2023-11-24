@@ -17,15 +17,7 @@ const ytDownload = async (url: string) => {
     }
     const buffer = Buffer.concat(chunks)
     const fileString = buffer.toString("base64")
-    await cloudinary.uploader.upload(
-      `data:video/mp4;base64,${fileString}`,
-      {
-        resource_type: "auto",
-        public_id: `${new Date().getTime()}`,
-        folder: "memes",
-        format: "mp4",
-      }
-    )
+    return fileString
   } 
   catch (error) {
     throw new Error(error as any)
