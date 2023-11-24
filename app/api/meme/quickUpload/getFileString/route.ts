@@ -10,7 +10,7 @@ const getFileString = async (url: string) => {
     }
     const buffer = Buffer.concat(chunks)
     const fileString = buffer.toString("base64")
-    return fileString
+    return fileString.length
   } 
   catch (error) {
     throw new Error(error as any)
