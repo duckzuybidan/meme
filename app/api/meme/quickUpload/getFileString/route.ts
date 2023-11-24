@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get('url') || ''
   try {
     const fileString = await getFileString(url)
-    return NextResponse.json({ data: '123' })
+    return NextResponse.json(fileString)
   } 
   catch (error) {
     return NextResponse.json({ error: new Error(error as any).message })
