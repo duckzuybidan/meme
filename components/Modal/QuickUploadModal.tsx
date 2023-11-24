@@ -3,7 +3,6 @@ import { quickUploadModal } from "@/lib/types"
 import React, { useState } from "react"
 import toast from "react-hot-toast"
 import { HiOutlineXMark } from "react-icons/hi2"
-import { getFileString } from "@/lib/getFileString"
 export default function QuickUploadModal({modal, onClose}: {modal: quickUploadModal, onClose: () => void}) {
     const [loading, setLoading] = useState(false)
     const [url, setUrl] = useState('')
@@ -11,11 +10,25 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
     if(!modal.open){
         return
     }
-    const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
         try{
-        await getFileString(url)
-        console.log('ok')
+        fetch(`/api/meme/quickUpload/getFileString?url=${url}`, {
+         next: {
+          revalidate: 5
+         }
+        })
+        .then(res => res.json())
+        .then(async (res) => {
+          if(res.error){
+            toast.error(res.error)
+            throw new Error(res.error)
+          }
+          fetch(`data:video/mp4;base64,${res.data}`)
+          .then(res => res.blob())
+          .then(blob => console.log(URL.createObjectURL(blob)))
+        })
+        .catch(error => console.log(error))
       }
       catch(error){
         console.log(error)
