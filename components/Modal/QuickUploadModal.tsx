@@ -12,10 +12,10 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
         try{
-        fetch(`/api/meme/quickUpload?url=${url}`, {
-          next: {
-            revalidate: 5
-          }
+        fetch('/api/meme/quickUpload', {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({url: url})
         })
         .then(res => res.json())
         .then(res => {
