@@ -9,12 +9,10 @@ cloudinary.config({
     api_key: '521941113518647',
     api_secret: 'P18AZVui5k7-GHHDKnXXOi8W7xU'
   });
-
-export async function POST(req: NextRequest) {
-    await connectDB()
-    const formData = await req.json() 
+const ytDownload = (url: string) => {
+    return new Promise((resolve, reject) => {
         try{
-            ytdl(formData.url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4'))).on('finish', async () => {
+            ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4'))).on('finish', async () => {
                 const fileBuffer  = fs.readFileSync(path.join(process.cwd() + '/tmp/video.mp4'))
                 const fileString = fileBuffer.toString('base64');
                 cloudinary.uploader.upload(
@@ -27,15 +25,35 @@ export async function POST(req: NextRequest) {
                     },
                     (error, result) => {
                       if (error) {
-                        throw (error)
+                        reject(error)
                       } 
                       else {
                         fs.unlinkSync(path.join(process.cwd() + '/tmp/video.mp4'))
+                        resolve(result?.url)
                       }
                     }
                   )
+                    
             })
-            return NextResponse.json({data: '123'})
+            
+        }
+        catch(error){
+            reject(error)
+        }
+    }) 
+}
+export async function POST(req: NextRequest) {
+    await connectDB()
+    const formData = await req.json() 
+    try{
+        const res = await ytDownload(formData.url)
+        .then(url => {
+            return url
+        })
+        .catch(error => {
+            throw new Error(error)
+        })
+        return NextResponse.json({data: res})
     }
     catch(error){
         return NextResponse.json({error: new Error(error as any).message})
