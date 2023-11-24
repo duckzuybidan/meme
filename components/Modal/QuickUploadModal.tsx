@@ -27,7 +27,7 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
           console.log(res.data)
           fetch(`data:video/mp4;base64,${res.data}`)
           .then(res => res.blob())
-          .then(blob => console.log(blob))
+          .then(blob => console.log(URL.createObjectURL(blob)))
         })
         
         .catch(error => console.log(error))
