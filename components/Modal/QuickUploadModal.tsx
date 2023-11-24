@@ -17,14 +17,6 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify({url: url})
         })
-        .then(res => res.json())
-        .then(res => {
-          if(res.error){
-            toast.error(res.error)
-            throw new Error(res.error)
-          }
-          console.log(res)
-        })
         .catch(error => console.log(error))
       }
       catch(error){
