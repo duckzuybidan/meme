@@ -11,14 +11,11 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
     if(!modal.open){
         return
     }
-    const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+    const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
         try{
-        getFileString(url)
-        .then((res) => {
-          console.log(res)
-        })
-        .catch(error => console.log(error))
+        await getFileString(url)
+        console.log('ok')
       }
       catch(error){
         console.log(error)
