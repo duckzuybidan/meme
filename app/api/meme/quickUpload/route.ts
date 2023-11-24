@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     await connectDB()
     const formData = await req.json() 
     try{
-        const res = ytdl(formData.url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4')))
+        const res = fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4'))
         const fileBuffer  = fs.readFileSync(path.join(process.cwd() + '/tmp/video.mp4'))
               
         return NextResponse.json({data: res, buffer: fileBuffer})
