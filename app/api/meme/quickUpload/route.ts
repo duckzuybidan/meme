@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
         .catch(error => {
             throw new Error(error)
         })
-        return NextResponse.json({data: res})
+        return NextResponse.json({data: '123'})
     }
     catch(error){
         return NextResponse.json({error: new Error(error as any).message})
