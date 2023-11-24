@@ -9,12 +9,16 @@ cloudinary.config({
   api_secret: "P18AZVui5k7-GHHDKnXXOi8W7xU",
 })
 
-const ytDownload = (url: string) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const chunks: any[] = []
 
-      ytdl(url)
+export async function POST(req: NextRequest) {
+  await connectDB()
+
+  const formData = await req.json()
+
+  try {
+    const chunks: any[] = []
+
+      ytdl(formData.url)
         .on("data", (chunk) => {
           chunks.push(chunk)
         })
@@ -32,32 +36,14 @@ const ytDownload = (url: string) => {
             },
             (error, result) => {
               if (error) {
-                reject(error)
-              } else {
-                resolve(result?.url)
+                throw new Error(error as any)
               }
             }
           )
         })
-        .on("error", (error) => {
-          reject(error)
-        })
-    } catch (error) {
-      reject(error)
-    }
-  })
-}
-
-export async function POST(req: NextRequest) {
-  await connectDB()
-
-  const formData = await req.json()
-
-  try {
-    const res = await ytDownload(formData.url)
-
-    return NextResponse.json({ data: res })
-  } catch (error) {
+    return NextResponse.json({ data: 'pass' })
+  } 
+  catch (error) {
     return NextResponse.json({ error: new Error(error as any).message })
   }
 }

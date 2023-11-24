@@ -1,9 +1,0 @@
-{
-    "routes": [
-      {
-        "src": "/api/.*",
-        "methods": ["GET", "POST"],
-        "timeout": 300
-      }
-    ]
-  }
