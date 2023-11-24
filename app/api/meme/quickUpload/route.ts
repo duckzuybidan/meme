@@ -9,43 +9,32 @@ cloudinary.config({
   api_secret: "P18AZVui5k7-GHHDKnXXOi8W7xU",
 })
 
-const ytDownload = (url: string) => {
-  return new Promise((resolve, reject) => {
-    try {
-      const chunks: any[] = []
+const ytDownload = async (url: string) => {
+  try {
+    const chunks: any[] = []
 
-      ytdl(url)
-        .on("data", (chunk) => {
-          chunks.push(chunk)
-        })
-        .on("end", () => {
-          const buffer = Buffer.concat(chunks)
-          const fileString = buffer.toString("base64")
+    const stream = ytdl(url)
 
-          cloudinary.uploader.upload(
-            `data:video/mp4;base64,${fileString}`,
-            {
-              resource_type: "auto",
-              public_id: `${new Date().getTime()}`,
-              folder: "memes",
-              format: "mp4",
-            },
-            (error, result) => {
-              if (error) {
-                reject(error)
-              } else {
-                resolve(result?.url)
-              }
-            }
-          )
-        })
-        .on("error", (error) => {
-          reject(error)
-        })
-    } catch (error) {
-      reject(error)
+    for await (const chunk of stream) {
+      chunks.push(chunk)
     }
-  })
+
+    const buffer = Buffer.concat(chunks)
+    const fileString = buffer.toString("base64")
+
+    const result = await cloudinary.uploader.upload(
+      `data:video/mp4;base64,${fileString}`,
+      {
+        resource_type: "auto",
+        public_id: `${new Date().getTime()}`,
+        folder: "memes",
+        format: "mp4",
+      }
+    )
+    return result?.url
+  } catch (error) {
+    throw new Error(error as any)
+  }
 }
 
 export async function POST(req: NextRequest) {
