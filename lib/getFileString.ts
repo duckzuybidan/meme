@@ -9,7 +9,7 @@ export async function getFileString(url: string) : Promise<string> {
       }
       const buffer = Buffer.concat(chunks)
       const fileString = buffer.toString("base64")
-      return fileString
+      return '123'
     } 
     catch (error) {
       throw new Error(error as any)
