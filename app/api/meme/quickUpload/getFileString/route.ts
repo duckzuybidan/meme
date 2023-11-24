@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import ytdl from "ytdl-core"
 export const revalidate = 5
-const ytDownload = async (url: string) => {
+const getFileString = async (url: string) => {
   try {
     const chunks: any[] = []
     const stream = ytdl(url)
@@ -20,7 +20,7 @@ const ytDownload = async (url: string) => {
 export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get('url') || ''
   try {
-    const fileString = await ytDownload(url)
+    const fileString = await getFileString(url)
     return NextResponse.json({ data: fileString })
   } 
   catch (error) {
