@@ -14,7 +14,7 @@ const ytDownload = (url: string) => {
         try{
             const video = ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4')))
             video.on('finish', async () => {
-                resolve(video)
+                resolve('ok')
             })
             
         }
