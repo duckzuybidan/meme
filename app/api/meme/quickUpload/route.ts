@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server"
 import ytdl from "ytdl-core"
 import fs from 'fs'
 import connectDB from '@/lib/connectDB'
-import path from "path"
 import {v2 as cloudinary} from 'cloudinary';
 cloudinary.config({
     cloud_name: 'dcalppd08',
@@ -12,11 +11,28 @@ cloudinary.config({
 const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
-            const video = ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4')))
-            video.on('finish', async () => {
-                resolve('ok')
+            ytdl(url).pipe(fs.createWriteStream('video.mp4')).on('finish', () => {
+                const fileBuffer  = fs.readFileSync('video.mp4')
+                const fileString = fileBuffer.toString('base64');
+                cloudinary.uploader.upload(
+                    `data:video/mp4;base64,${fileString}`,
+                    {
+                    resource_type: 'auto',
+                      public_id: `${new Date().getTime()}`, 
+                      folder: 'memes',      
+                      format: 'mp4',                
+                    },
+                    (error, result) => {
+                      if (error) {
+                        reject(error)
+                      } 
+                      else {
+                        fs.unlinkSync('video.mp4')
+                        resolve(result?.url)
+                      }
+                    }
+                  )
             })
-            
         }
         catch(error){
             reject(error)
@@ -34,7 +50,7 @@ export async function POST(req: NextRequest) {
         .catch(error => {
             throw new Error(error)
         })
-        return NextResponse.json({data: '123'})
+        return NextResponse.json({data: res})
     }
     catch(error){
         return NextResponse.json({error: new Error(error as any).message})
