@@ -6,7 +6,7 @@ import path from "path"
 const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
-            ytdl(url).pipe(fs.createWriteStream('/video.mp4')).on('finish', async () => {
+            ytdl(url).pipe(fs.createWriteStream('/public/video.mp4')).on('finish', async () => {
                 
                 resolve('Download success')
             })
@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
         .catch(error => {
             throw new Error(error)
         })
-        return NextResponse.json({message: path.join(process.cwd(), '/public/video.mp4')})
+        return NextResponse.json({message: 'success'})
     }
     catch(error){
         return NextResponse.json({error: new Error(error as any).message})
