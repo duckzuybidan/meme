@@ -12,7 +12,10 @@ cloudinary.config({
 const ytDownload = (url: string) => {
     return new Promise((resolve, reject) => {
         try{
-            
+            const video = ytdl(url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4')))
+            video.on('finish', async () => {
+                resolve(video)
+            })
             
         }
         catch(error){
@@ -24,11 +27,14 @@ export async function POST(req: NextRequest) {
     await connectDB()
     const formData = await req.json() 
     try{
-      const video = ytdl(formData.url).pipe(fs.createWriteStream(path.join(process.cwd() + '/tmp/video.mp4')))
-      video.on('finish', async () => {
-          
-      })
-        return NextResponse.json({data: '123'})
+        const res = await ytDownload(formData.url)
+        .then(url => {
+            return url
+        })
+        .catch(error => {
+            throw new Error(error)
+        })
+        return NextResponse.json({data: res})
     }
     catch(error){
         return NextResponse.json({error: new Error(error as any).message})
