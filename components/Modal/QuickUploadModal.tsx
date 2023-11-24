@@ -24,6 +24,7 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
             throw new Error(res.error)
           }
           console.log(res)
+
         })
         .catch(error => console.log(error))
       }
