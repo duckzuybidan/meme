@@ -6,7 +6,7 @@ import { HiOutlineXMark } from "react-icons/hi2"
 export default function QuickUploadModal({modal, onClose}: {modal: quickUploadModal, onClose: () => void}) {
     const [loading, setLoading] = useState(false)
     const [url, setUrl] = useState('')
-    const [video, setVideo] = useState('')
+
     if(!modal.open){
         return
     }
@@ -24,9 +24,18 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
             toast.error(res.error)
             throw new Error(res.error)
           }
-          console.log(res.data)
-          const blob = await fetch(`data:video/mp4;base64,${res.data}`).then(res => res.blob())
-          setVideo(URL.createObjectURL(blob))
+          fetch(`data:video/mp4;base64,${res.data}`)
+          .then(res => res.blob())
+          .then(blob => {
+            const url = URL.createObjectURL(blob)
+            let aTag = document.createElement("a")
+            aTag.href = url
+            aTag.download = 'download'
+            document.body.append(aTag)
+            aTag.click()
+            aTag.remove()
+            URL.revokeObjectURL(url)
+          })
         })
         
         .catch(error => console.log(error))
@@ -37,7 +46,6 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
     }
     return (
     <div className='flex flex-col justify-center fixed top-0 z-50 w-screen h-screen bg-black bg-opacity-70'>
-      {video && <video src={video}></video>}
       <form 
         className='self-center flex flex-col justify-items-start items-center gap-y-7 w-1/2 h-max bg-slate-100 rounded-2xl p-3 max-xl:w-5/6 max-xl:mt-7 max-sm:py-6 relative'
         onSubmit={handleSubmit}
