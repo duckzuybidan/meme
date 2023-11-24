@@ -11,17 +11,40 @@ cloudinary.config({
 
 const ytDownload = (url: string) => {
   return new Promise((resolve, reject) => {
-    ytdl(url)
-      .pipe(cloudinary.uploader.upload_stream((error, result) => {
-        if (error) {
+    try {
+      const chunks: any[] = []
+
+      ytdl(url)
+        .on("data", (chunk) => {
+          chunks.push(chunk)
+        })
+        .on("end", () => {
+          const buffer = Buffer.concat(chunks)
+          const fileString = buffer.toString("base64")
+
+          cloudinary.uploader.upload(
+            `data:video/mp4;base64,${fileString}`,
+            {
+              resource_type: "auto",
+              public_id: `${new Date().getTime()}`,
+              folder: "memes",
+              format: "mp4",
+            },
+            (error, result) => {
+              if (error) {
+                reject(error)
+              } else {
+                resolve(result?.url)
+              }
+            }
+          )
+        })
+        .on("error", (error) => {
           reject(error)
-        } else {
-          resolve(result?.url)
-        }
-      }))
-      .on("error", (error) => {
-        reject(error)
-      })
+        })
+    } catch (error) {
+      reject(error)
+    }
   })
 }
 
@@ -32,12 +55,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const res = await ytDownload(formData.url)
-    .then(url => {
-      return url
-    })
-    .catch(error => {
-      throw new Error(error)
-    })
+
     return NextResponse.json({ data: res })
   } catch (error) {
     return NextResponse.json({ error: new Error(error as any).message })
