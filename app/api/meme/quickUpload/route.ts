@@ -20,7 +20,6 @@ export async function GET(req: NextRequest) {
     const url = req.nextUrl.searchParams.get('url') || ''
     try{
         await ytDownload(url)
-        .then(message => console.log(message))
         .catch(error => {
             throw new Error(error)
         })
