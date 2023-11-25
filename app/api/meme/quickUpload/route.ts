@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
 import ytdl from "@distube/ytdl-core"
-export const revalidate = 5
 export async function POST(req: NextRequest) {
   const {url, format} = await req.json()
   try {
