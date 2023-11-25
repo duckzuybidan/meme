@@ -120,6 +120,8 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
                   })
                   .then(meme => {
                     setLoading(false)
+                    setDisabled(false)
+                    setUrl('')
                     setUploadModal({
                       open: true,
                       meme: meme,
@@ -171,7 +173,7 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
                 required
               />
         </div>
-        {title && thumbnail && formats &&
+        {title && thumbnail && formats && url && 
         <div className="flex flex-col items-center gap-3 w-2/3 max-sm:w-full">
           {formats.length === 0 && <p className="text-red-500 text-center">No valid format for this video. Please choose another one!</p>}
           {formats.length > 0 && 
