@@ -6,7 +6,7 @@ import { RootState } from "@/lib/redux/store"
 import { meme, modalContext, quickUploadModal } from "@/lib/types"
 import ytdl from "@distube/ytdl-core"
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage"
-import { useState, memo, useContext } from "react"
+import { useState, memo, useContext, use } from "react"
 import toast from "react-hot-toast"
 import { HiOutlineXMark } from "react-icons/hi2"
 import { useDispatch, useSelector } from "react-redux"
@@ -16,6 +16,7 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
     const [formats, setFormats] = useState<ytdl.videoFormat[] | null>(null)
     const [title, setTitle] = useState('')
     const [thumbnail, setThumbnail] = useState('')
+    const [fileSize, setFileSize] = useState<number[]>([])
     const [disabled, setDisabled] = useState(false)
     const { currentUser } = useSelector((state: RootState) => state.user)
     const {setUploadModal} = useContext(ModalContext) as modalContext
@@ -43,6 +44,7 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
             setFormats(res.formats as ytdl.videoFormat[])
             setTitle(res.title)
             setThumbnail(res.thumbnail)
+            setFileSize(res.fileSize)
             setLoading(false)
             if(res.formats.length > 0){
               setDisabled(true)
@@ -186,10 +188,10 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
                   <p className="font-semibold text-red-500">Size</p>
                   <p className="font-semibold text-red-500">Choose format</p>
               </li>
-              {formats.map(format => 
+              {formats.map((format, i) => 
               <li key={format.itag} className="flex items-center justify-between">
                 <p>{format.qualityLabel}</p>
-                <p className="ml-2">{(parseInt(format.contentLength) / (1024 * 1024)).toFixed(2)}MB</p>
+                <p className="ml-2">{(fileSize[i] / (1024 * 1024)).toFixed(2)}MB</p>
                 <span 
                   className="text-green-500 cursor-pointer max-sm:ml-3" 
                   onClick={(e: React.SyntheticEvent<HTMLSpanElement>) => handleFormat(e, format)}
