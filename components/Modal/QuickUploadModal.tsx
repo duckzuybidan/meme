@@ -112,13 +112,14 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
                       toast.error(res.error)
                       throw new Error(res.error)
                     }
-                    setLoading(false)
+                    
                     toast.success(res.message)
                     dispatch(createMeme(res.data as meme))
                     onClose()
                     return res.data as meme
                   })
                   .then(meme => {
+                    setLoading(false)
                     setUploadModal({
                       open: true,
                       meme: meme,
