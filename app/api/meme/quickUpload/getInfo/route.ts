@@ -5,8 +5,7 @@ export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get('url') || ''
   try {
     const info = await ytdl.getInfo(url)
-    const formats = info.formats.filter(format => 
-      format.mimeType?.includes('video/mp4') && 
+    const formats = info.formats.filter(format =>  
       parseInt(format.contentLength) < 30 * 1024 * 1024 &&
       format.hasAudio)
     
