@@ -7,20 +7,14 @@ export async function PUT(req: NextRequest, {params}: {params: {id:string}}) {
     await connectDB()
     const token = cookies().get('access_token')
     if(!token){
-    return NextResponse.json({
-        error: 'Unauthorized'
-    }) 
+    return NextResponse.json({error: 'Unauthorized'}, {status: 401}) 
     }
     jwt.verify(token.value, process.env.JWT_SECRET as string, (err, id) => {
         if(err){
-            return NextResponse.json({
-                error: 'Forbidden'
-            })
+            return NextResponse.json({error: 'Forbidden'}, {status: 403})
         }
         if(params.id != id){
-            return NextResponse.json({
-                error: 'You can only update your own data!'
-            })
+            return NextResponse.json({error: 'You can only update your own data!'}, {status: 401})
         }
     })
     const formData = await req.json()

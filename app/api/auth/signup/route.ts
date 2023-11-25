@@ -6,16 +6,12 @@ export async function POST(req: NextRequest) {
     const formData = await req.json()
     const existUser = await User.findOne({email: formData.email})
     if(existUser){
-        return NextResponse.json({
-            error: 'Email existed!'
-        })
+        return NextResponse.json({error: 'Email existed!'}, {status: 401})
     }
     const newUser = new User({ username : formData.username, email: formData.email, password: formData.password });
     try {
         await newUser.save()
-        return NextResponse.json({
-            message: 'Sign up success!'
-        })
+        return NextResponse.json({message: 'Sign up success!'})
     } 
     catch (error) {
         return NextResponse.json({error: new Error(error as any).message})

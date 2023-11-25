@@ -9,15 +9,11 @@ export async function POST(req: NextRequest) {
     try {
       const validUser = await User.findOne({ email: formData.email })
       if (!validUser){
-        return NextResponse.json({
-            error: 'Email not found!'
-        })
+        return NextResponse.json({error: 'Email not found!'}, {status: 404})
       }
       const validPassword = (formData.password === validUser.password)
       if (!validPassword){
-        return NextResponse.json({
-            error: 'Wrong Password!'
-        })
+        return NextResponse.json({error: 'Wrong Password!'}, {status: 401})
       }
       const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET as string)
       cookies().set('access_token', token, {httpOnly: true})
