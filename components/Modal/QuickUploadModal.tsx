@@ -13,23 +13,25 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
     const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault()
         try{
-        fetch(`/api/meme/quickUpload/getFileString?url=${url}`, {
-         next: {
-          revalidate: 5
-         }
-        })
-        .then(res => res.json())
-        .then(async (res) => {
-          if(res.error){
-            toast.error(res.error)
-            throw new Error(res.error)
+          fetch(`/api/meme/quickUpload?url=${url}`, {
+          next: {
+            revalidate: 5
           }
-          console.log(res)
-          fetch(`data:video/mp4;base64,${res.data}`)
-          .then(res => res.blob())
-          .then(blob => console.log(URL.createObjectURL(blob)))
-        })
-        .catch(error => console.log(error))
+          })
+          .then(res => res.clone())
+          .then(async (res) => {
+            const isJson = res.headers.get('Content-Type')?.includes('application/json')
+            if(isJson){
+              const json = await res.json()
+              if(json.error){
+                toast.error(json.error)
+                throw new Error(json.error)
+              }
+            }
+            const blob = await res.blob()
+            console.log(URL.createObjectURL(blob))
+          })
+          .catch(error => console.log(error))
       }
       catch(error){
         console.log(error)
