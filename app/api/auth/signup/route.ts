@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
     const formData = await req.json()
     const existUser = await User.findOne({email: formData.email})
     if(existUser){
-        return NextResponse.json({error: 'Email existed!'}, {status: 401})
+        return NextResponse.json({error: 'Email existed!'})
     }
     const newUser = new User({ username : formData.username, email: formData.email, password: formData.password });
     try {
