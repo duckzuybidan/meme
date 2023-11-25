@@ -12,12 +12,9 @@ export async function GET(req: NextRequest) {
     }
     const buffer = Buffer.concat(chunks)
     const fileString = buffer.toString("base64")
-    const body = await fetch(`data:video/mp4;base64,${fileString}`)
-    .then(res => res.blob())
-    console.log(body)
-    return new NextResponse(body,{
+    return new NextResponse(fileString,{
       headers:{
-        'Content-Type': `${body.type}`,
+        'Content-Type': `text/plain`,
       }
     })
   } 

@@ -6,7 +6,7 @@ import { HiOutlineXMark } from "react-icons/hi2"
 export default function QuickUploadModal({modal, onClose}: {modal: quickUploadModal, onClose: () => void}) {
     const [loading, setLoading] = useState(false)
     const [url, setUrl] = useState('')
-
+    const [src, setSrc] = useState('')
     if(!modal.open){
         return
     }
@@ -28,8 +28,10 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
                 throw new Error(json.error)
               }
             }
-            const blob = await res.blob()
-            console.log(URL.createObjectURL(blob))
+            const fileString = await res.text()
+            fetch(`data:video/mp4;base64,${fileString}`)
+            .then(res => res.blob())
+            .then(res => setSrc(URL.createObjectURL(res)))
           })
           .catch(error => console.log(error))
       }
@@ -39,6 +41,7 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
     }
     return (
     <div className='flex flex-col justify-center fixed top-0 z-50 w-screen h-screen bg-black bg-opacity-70'>
+      {src && <video src={src} controls></video>}
       <form 
         className='self-center flex flex-col justify-items-start items-center gap-y-7 w-1/2 h-max bg-slate-100 rounded-2xl p-3 max-xl:w-5/6 max-xl:mt-7 max-sm:py-6 relative'
         onSubmit={handleSubmit}
