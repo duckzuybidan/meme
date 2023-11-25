@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import ytdl from "@distube/ytdl-core"
 export const revalidate = 5
-export async function GET(req: NextRequest) {
-  const url = req.nextUrl.searchParams.get('url') || ''
+export async function POST(req: NextRequest) {
+  const {url, format} = await req.json()
   try {
     const chunks: any[] = []
-    const stream = ytdl(url)
-    
+    const stream = ytdl(url, {
+      format: format
+    })
     for await (const chunk of stream) {
         chunks.push(chunk)
     }

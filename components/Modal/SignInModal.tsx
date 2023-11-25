@@ -1,13 +1,13 @@
 "use client"
 import {ModalContext } from '@/lib/contexts/ModalContext'
-import { useContext, useState } from 'react'
+import { useContext, useState, memo } from 'react'
 import { HiOutlineXMark } from "react-icons/hi2"
 import OAuth from '../OAuth'
 import { signIn } from '@/lib/redux/userSlice'
 import { useDispatch } from 'react-redux'
 import toast from 'react-hot-toast'
 import { user, modalContext, signInModal } from "@/lib/types"
-export default function SignInModal({modal, onClose}: {modal: signInModal, onClose: () => void}) {
+export default memo(function SignInModal({modal, onClose}: {modal: signInModal, onClose: () => void}) {
   const [formData, setFormData] = useState({})
   const [loading, setLoading] = useState(false)
   const { setSignInModal, setSignUpModal } = useContext(ModalContext) as modalContext
@@ -99,4 +99,4 @@ export default function SignInModal({modal, onClose}: {modal: signInModal, onClo
       </form>
     </div>
   )
-}
+})

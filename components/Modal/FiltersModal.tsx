@@ -1,12 +1,12 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useState, memo } from "react"
 import { filtersModal } from "@/lib/types"
 import { Checkbox, Label, Select } from "flowbite-react"
 import { HiOutlineXMark } from "react-icons/hi2"
 import { useRouter, useSearchParams } from "next/navigation"
 import toast from "react-hot-toast"
 
-export default function FiltersModal({modal, onClose}: {modal: filtersModal, onClose: () => void}) {
+export default memo(function FiltersModal({modal, onClose}: {modal: filtersModal, onClose: () => void}) {
     const [formData, setFormData] = useState({
         sortBy: '',
         getVideo: true,
@@ -89,4 +89,4 @@ export default function FiltersModal({modal, onClose}: {modal: filtersModal, onC
             </form>
         </div>
     )
-}
+})

@@ -1,6 +1,6 @@
 "use client"
 import '@/app/globals.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { HiOutlineXMark } from "react-icons/hi2"
 import { FileUploader } from 'react-drag-drop-files-2'
 import { FaDeleteLeft } from 'react-icons/fa6'
@@ -12,10 +12,10 @@ import { RootState } from '@/lib/redux/store'
 import { useDispatch } from 'react-redux'
 import { createMeme, editMeme } from '@/lib/redux/memeSlice'
 import {meme, uploadModal} from "@/lib/types"
-export default function UploadModal({modal, onClose}: {modal: uploadModal, onClose: () => void}) {
+export default memo(function UploadModal({modal, onClose}: {modal: uploadModal, onClose: () => void}) {
   const { currentUser } = useSelector((state: RootState) => state.user)
   const dispatch = useDispatch()
-  const [disabled, setDisable] = useState(true)
+  const [disabled, setDisableb] = useState(true)
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -43,7 +43,7 @@ export default function UploadModal({modal, onClose}: {modal: uploadModal, onClo
     }
     if (file) {
       handleFileUpload(file)
-      setDisable(false)
+      setDisableb(false)
     }
   }, [file])
   useEffect(() => {
@@ -103,31 +103,31 @@ export default function UploadModal({modal, onClose}: {modal: uploadModal, onClo
             console.log(error)
           },
           () => {
-          getDownloadURL(uploadTask.snapshot.ref)
-          .then(async (downloadURL) => {
-            formData.url = downloadURL
-            formData.userRef = currentUser?._id as string
-            formData.firebaseName = fileName
-            fetch('/api/meme/create', {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: JSON.stringify(formData)
-            })
-            .then(res => res.json())
-            .then(res => {
-              if (res.error) {
+            getDownloadURL(uploadTask.snapshot.ref)
+            .then(async (downloadURL) => {
+              formData.url = downloadURL
+              formData.userRef = currentUser?._id as string
+              formData.firebaseName = fileName
+              fetch('/api/meme/create', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(formData)
+              })
+              .then(res => res.json())
+              .then(res => {
+                if (res.error) {
+                  setLoading(false)
+                  toast.error(res.error)
+                  throw new Error(res.error)
+                }
                 setLoading(false)
-                toast.error(res.error)
-                throw new Error(res.error)
-              }
-              setLoading(false)
-              toast.success(res.message)
-              dispatch(createMeme(res.data as meme))
-              onClose()
+                toast.success(res.message)
+                dispatch(createMeme(res.data as meme))
+                onClose()
+              })
+              .catch(error => console.log(error))
             })
             .catch(error => console.log(error))
-          })
-          .catch(error => console.log(error))
           }
         )
       }
@@ -174,7 +174,7 @@ export default function UploadModal({modal, onClose}: {modal: uploadModal, onClo
               types={fileTypes}
               label='Upload your meme'
               handleChange={(file: File) => setFile(file as File)}
-              maxSize={5}
+              maxSize={30}
               onSizeError={() => setError('Only accept the size less than 5MB!')}
               onTypeError={() => setError('Invalid file type!')}
               messages = {{
@@ -252,4 +252,4 @@ export default function UploadModal({modal, onClose}: {modal: uploadModal, onClo
       </form>
     </div>
   )
-}
+})

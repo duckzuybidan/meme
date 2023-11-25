@@ -1,13 +1,13 @@
 import { deleteModal } from "@/lib/types";
 import { HiOutlineXMark } from "react-icons/hi2";
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { deleteObject, getStorage, ref } from "firebase/storage";
 import { app } from "@/lib/firebase";
 import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { deleteMeme } from "@/lib/redux/memeSlice";
 
-export default function DeleteModal({modal, onClose}: {modal: deleteModal, onClose: () => void}) {
+export default memo(function DeleteModal({modal, onClose}: {modal: deleteModal, onClose: () => void}) {
   const [loading, setLoading] = useState(false)
   const dispatch = useDispatch()
   if(!modal.open){
@@ -68,4 +68,4 @@ export default function DeleteModal({modal, onClose}: {modal: deleteModal, onClo
     </div>
     </div>
   )
-}
+})

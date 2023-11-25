@@ -1,11 +1,11 @@
 "use client"
 import { ModalContext } from '@/lib/contexts/ModalContext'
 import { HiOutlineXMark } from "react-icons/hi2"
-import { useContext, useState } from 'react'
+import { useContext, useState, memo } from 'react'
 import OAuth from '../OAuth'
 import toast from 'react-hot-toast'
 import { modalContext, signUpModal} from "@/lib/types"
-export default function SignUpModal({modal, onClose}: {modal: signUpModal, onClose: () => void}) {
+export default memo(function SignUpModal({modal, onClose}: {modal: signUpModal, onClose: () => void}) {
   const { setSignInModal, setSignUpModal } = useContext(ModalContext) as modalContext
   const [formData, setFormData] = useState({})
   const [loading, setLoading] = useState(false)
@@ -102,4 +102,4 @@ export default function SignUpModal({modal, onClose}: {modal: signUpModal, onClo
       </form>
     </div>
   )
-}
+})
