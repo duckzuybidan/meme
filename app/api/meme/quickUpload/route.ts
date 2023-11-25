@@ -12,9 +12,10 @@ export async function GET(req: NextRequest) {
     }
     const buffer = Buffer.concat(chunks)
     const fileString = buffer.toString("base64")
+
     return new NextResponse(fileString,{
       headers:{
-        'Content-Type': `application/json`,
+        'Content-Type': 'text/plain',
       }
     })
   } 

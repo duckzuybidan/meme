@@ -20,11 +20,15 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
           })
           .then(res => res.json())
           .then(async (res) => {
-            if(res.error){
-              toast.error(res.error)
-              throw new Error(res.error)
+            const isJson = res.headers.get('Content-Type')?.includes('application/json')
+            if(isJson){
+              const json = await res.json()
+              if(json.error){
+                toast.error(json.error)
+                throw new Error(json.error)
+              }
             }
-            const fileString = res
+            const fileString = await res.text()
             fetch(`data:video/mp4;base64,${fileString}`)
             .then(res => res.blob())
             .then(res => setSrc(URL.createObjectURL(res)))
