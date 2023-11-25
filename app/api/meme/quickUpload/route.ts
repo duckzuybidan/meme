@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const fileString = buffer.toString("base64")
     return new NextResponse(fileString,{
       headers:{
-        'Content-Type': `text/plain`,
+        'Content-Type': `application/json`,
       }
     })
   } 
