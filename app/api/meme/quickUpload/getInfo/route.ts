@@ -15,7 +15,6 @@ export async function GET(req: NextRequest) {
       }
       return format.mimeType?.includes('video/mp4') && format.hasAudio 
     })
-    console.log(tmpFormats)
     const fileSize : number[] = []
     for (const format of tmpFormats){
       const size = await fetch(format.url).then(res => res.blob()).then(res => {return res.size})
