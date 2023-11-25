@@ -18,7 +18,6 @@ export default function QuickUploadModal({modal, onClose}: {modal: quickUploadMo
             revalidate: 5
           }
           })
-          .then(res => res.clone())
           .then(async (res) => {
             const isJson = res.headers.get('Content-Type')?.includes('application/json')
             if(isJson){
