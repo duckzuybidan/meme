@@ -21,7 +21,6 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
     const { currentUser } = useSelector((state: RootState) => state.user)
     const {setUploadModal} = useContext(ModalContext) as modalContext
     const dispatch = useDispatch()
-    
     if(!modal.open){
         return
     }
@@ -209,6 +208,16 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
           disabled={loading || disabled}
           >
           {loading ? 'Loading...' : 'Get info'}
+        </button>
+        <button
+          className="bg-red-500 p-3 rounded-lg w-1/3 font-medium cursor-pointer disabled:opacity-75 max-md:w-5/6"
+          onClick={() => {
+            setUrl('')
+            setDisabled(false)
+          }}
+          disabled={!url}
+        >
+          Clear Url
         </button>
       </form>
     </div>
