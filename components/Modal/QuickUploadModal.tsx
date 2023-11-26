@@ -146,7 +146,7 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
     }
     const handleUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
       if(disabled){
-        toast.error("Url cannot be changed once got info!\nYou can reload the page if you want paste an another url")
+        toast.error("Url cannot be changed once got info!")
         return
       }
       setUrl(e.target.value)
@@ -213,6 +213,9 @@ export default memo(function QuickUploadModal({modal, onClose}: {modal: quickUpl
           className="bg-red-500 p-3 rounded-lg w-1/3 font-medium cursor-pointer disabled:opacity-75 max-md:w-5/6"
           onClick={() => {
             setUrl('')
+            setTitle('')
+            setThumbnail('')
+            setFormats(null)
             setDisabled(false)
           }}
           disabled={!url}
